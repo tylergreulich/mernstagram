@@ -15,9 +15,9 @@ module.exports = function validatePostInput(data) {
     errors.text = 'Text field is required';
   }
 
-  if (Validator(data.postImage === null)) {
-    errors.postImage = 'Please upload an image';
-  }
+  // if (Validator(data.postImage === null)) {
+  //   errors.postImage = 'Please upload an image';
+  // }
 
   return {
     errors,

@@ -3,11 +3,44 @@ const router = express.Router();
 const mongoose = require('mongoose');
 const passport = require('passport');
 const multer = require('multer');
+const keys = require('../../../config/keys');
 
 const Post = require('../../../models/post/post');
 const Account = require('../../../models/account/account');
 
 const validatePost = require('../../../validation/post');
+
+const crypto = require('crypto');
+const path = require('path');
+const GridFsStorage = require('multer-gridfs-storage');
+const Grid = require('gridfs-stream');
+
+const conn = mongoose.createConnection(keys.mongoURI);
+
+let gfs;
+
+conn.once('open', () => {
+  gfs = Grid(conn.db(), mongoose.mongo);
+  gfs.collection('uploads');
+});
+
+const storage = new GridFsStorage({
+  url: keys.MongoURI,
+  file: (req, file) => {
+    return new Promise((resolve, reject) => {
+      crypto.randomBytes(16, (err, buf) => {
+        if (err) return reject(err);
+        const filename = buf.toString('hex') + path.extname(file.originalname);
+        const fileInfo = {
+          filename: filename,
+          bucketName: 'uploads'
+        };
+        resolve(fileInfo);
+      });
+    });
+  }
+});
+const upload = multer({ storage });
 
 router.get('/', (req, res) => {
   Post.find()
@@ -25,6 +58,7 @@ router.get('/:id', (req, res) => {
 router.post(
   '/',
   passport.authenticate('jwt', { session: false }),
+  upload.single('postImage'),
   (req, res) => {
     const { errors, isValid } = validatePost(req.body);
 
@@ -34,8 +68,7 @@ router.post(
     const newPost = new Post({
       text: req.body.text,
       name: req.body.name,
-      postImage: req.file.path,
-      // avatar: req.body.avatar,
+      postImage: req.body.postImage,
       user: req.user.id
     });
 

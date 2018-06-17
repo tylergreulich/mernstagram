@@ -1,4 +1,5 @@
 const express = require('express');
+const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const multer = require('multer');
@@ -13,6 +14,41 @@ const validateRegister = require('../../../validation/register');
 const validateLogin = require('../../../validation/login');
 const validateAccount = require('../../../validation/account');
 
+const crypto = require('crypto');
+const path = require('path');
+const GridFsStorage = require('multer-gridfs-storage');
+const Grid = require('gridfs-stream');
+
+// const conn = mongoose
+//   .connect(keys.MongoURI)
+//   .then(res => console.log(res))
+//   .catch(err => console.log(err));
+
+// let gfs;
+
+// conn.once('open', () => {
+//   gfs = Grid(conn.db(), mongoose.mongo);
+//   gfs.collection('uploads');
+// });
+
+const storage = new GridFsStorage({
+  url: keys.MongoURI,
+  file: (req, file) => {
+    return new Promise((resolve, reject) => {
+      crypto.randomBytes(16, (err, buf) => {
+        if (err) return reject(err);
+        const filename = buf.toString('hex') + path.extname(file.originalname);
+        const fileInfo = {
+          filename: filename,
+          bucketName: 'uploads'
+        };
+        resolve(fileInfo);
+      });
+    });
+  }
+});
+const upload = multer({ storage });
+
 router.get('/', (req, res) => {
   Account.find().then(account => res.json(account));
 });
@@ -24,7 +60,7 @@ router.get('/:id', (req, res) => {
 });
 
 // Register
-router.post('/register', (req, res) => {
+router.post('/register', upload.single('avatar'), (req, res) => {
   const { errors, isValid } = validateRegister(req.body);
 
   if (!isValid) return res.status(400).json(errors);
@@ -36,12 +72,13 @@ router.post('/register', (req, res) => {
       errors.email = 'Email already exists';
       return res.status(400).json(errors);
     } else {
-      const { email, fullname, username, password } = req.body;
+      const { email, fullname, username, password, avatar } = req.body;
       let newAccount = new Account({
         email,
         fullname,
         username,
-        password
+        password,
+        avatar
       });
 
       bcrypt.genSalt(10, (err, salt) => {

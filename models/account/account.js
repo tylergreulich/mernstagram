@@ -29,7 +29,8 @@ const accountSchema = new mongoose.Schema({
     minlength: 5
   },
   avatar: {
-    type: String
+    type: String,
+    required: true
   },
   followers: [
     {
