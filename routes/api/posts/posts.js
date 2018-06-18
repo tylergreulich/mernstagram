@@ -96,7 +96,6 @@ router.delete(
         .map(item => item.id.toString())
         .indexOf(req.user.id);
       account.posts.splice(removeIndex, 1);
-      console.log('Splicing Posts...', removeIndex);
       account.save();
     });
   }
@@ -154,7 +153,7 @@ router.post(
 );
 
 router.post(
-  '/comment/:id',
+  '/:id/comment',
   passport.authenticate('jwt', { session: false }),
   (req, res) => {
     const { errors, isValid } = validatePost(req.body);
@@ -166,10 +165,11 @@ router.post(
       .then(post => {
         const newComment = {
           text: req.body.text,
-          name: req.body.name,
+          username: req.body.username,
           avatar: req.body.avatar,
-          user: req.user.id
+          account: req.user.id
         };
+
         post.comments.unshift(newComment);
         post.save().then(post => res.json(post));
       })
@@ -178,7 +178,7 @@ router.post(
 );
 
 router.delete(
-  '/comment/:id/:comment_id',
+  '/:id/comment/:comment_id',
   passport.authenticate('jwt', { session: false }),
   (req, res) => {
     Post.findById(req.params.id)
