@@ -1,6 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const path = require('path');
+// const path = require('path');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const passport = require('passport');
@@ -68,8 +68,8 @@ router.post('/register', upload.single('avatar'), (req, res) => {
         email,
         fullname,
         username,
-        password,
-        avatar: req.file.path
+        password
+        // avatar: req.file.path
       });
 
       bcrypt.genSalt(10, (err, salt) => {

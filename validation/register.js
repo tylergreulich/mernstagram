@@ -13,16 +13,16 @@ module.exports = validateRegister = data => {
     errors.name = 'Name must be between 5 and 30 characters';
   }
 
-  if (Validator.isEmpty(data.fullname)) {
-    errors.name = 'Full name is required';
-  }
-
   if (!Validator.isLength(data.username, { min: 5, max: 30 })) {
     errors.name = 'Username must be between 5 and 30 characters';
   }
 
   if (Validator.isEmpty(data.username)) {
     errors.name = 'Username is required';
+  }
+
+  if (Validator.isEmpty(data.fullname)) {
+    errors.fullname = 'Full name is required';
   }
 
   if (Validator.isEmpty(data.email)) {
@@ -33,12 +33,12 @@ module.exports = validateRegister = data => {
     errors.email = 'Email is invalid';
   }
 
-  if (Validator.isEmpty(data.password)) {
-    errors.password = 'Password is required';
-  }
-
   if (!Validator.isLength(data.password, { min: 6, max: 30 })) {
     errors.password = 'Password must be at least 6 characters';
+  }
+
+  if (Validator.isEmpty(data.password)) {
+    errors.password = 'Password is required';
   }
 
   return {
