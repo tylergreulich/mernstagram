@@ -1,10 +1,35 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const path = require('path');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const multer = require('multer');
 const passport = require('passport');
 const keys = require('../../../config/keys');
+
+const multer = require('multer');
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, './uploads/');
+  },
+  filename: (req, file, cb) => {
+    cb(null, file.originalname);
+  }
+});
+
+const fileFilter = (req, file, cb) => {
+  if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
+    cb(null, true);
+  } else {
+    cb(null, false);
+  }
+};
+
+const upload = multer({
+  storage,
+  limits: { fileSize: 1024 * 1024 * 5 },
+  fileFilter
+});
 
 const router = express.Router();
 
@@ -13,41 +38,6 @@ const { Account, accountSchema } = require('../../../models/account/account');
 const validateRegister = require('../../../validation/register');
 const validateLogin = require('../../../validation/login');
 const validateAccount = require('../../../validation/account');
-
-const crypto = require('crypto');
-const path = require('path');
-const GridFsStorage = require('multer-gridfs-storage');
-const Grid = require('gridfs-stream');
-
-// const conn = mongoose
-//   .connect(keys.MongoURI)
-//   .then(res => console.log(res))
-//   .catch(err => console.log(err));
-
-// let gfs;
-
-// conn.once('open', () => {
-//   gfs = Grid(conn.db(), mongoose.mongo);
-//   gfs.collection('uploads');
-// });
-
-const storage = new GridFsStorage({
-  url: keys.MongoURI,
-  file: (req, file) => {
-    return new Promise((resolve, reject) => {
-      crypto.randomBytes(16, (err, buf) => {
-        if (err) return reject(err);
-        const filename = buf.toString('hex') + path.extname(file.originalname);
-        const fileInfo = {
-          filename: filename,
-          bucketName: 'uploads'
-        };
-        resolve(fileInfo);
-      });
-    });
-  }
-});
-const upload = multer({ storage });
 
 router.get('/', (req, res) => {
   Account.find().then(account => res.json(account));
@@ -61,8 +51,8 @@ router.get('/:id', (req, res) => {
 
 // Register
 router.post('/register', upload.single('avatar'), (req, res) => {
+  console.log(req.file);
   const { errors, isValid } = validateRegister(req.body);
-
   if (!isValid) return res.status(400).json(errors);
 
   const { email } = req.body;
@@ -72,13 +62,14 @@ router.post('/register', upload.single('avatar'), (req, res) => {
       errors.email = 'Email already exists';
       return res.status(400).json(errors);
     } else {
-      const { email, fullname, username, password, avatar } = req.body;
+      console.log(req.body);
+      const { email, fullname, username, password } = req.body;
       let newAccount = new Account({
         email,
         fullname,
         username,
         password,
-        avatar
+        avatar: req.file.path
       });
 
       bcrypt.genSalt(10, (err, salt) => {

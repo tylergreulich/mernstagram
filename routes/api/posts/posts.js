@@ -2,45 +2,37 @@ const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
 const passport = require('passport');
-const multer = require('multer');
 const keys = require('../../../config/keys');
 
 const Post = require('../../../models/post/post');
-const Account = require('../../../models/account/account');
+const { Account, accountSchema } = require('../../../models/account/account');
 
 const validatePost = require('../../../validation/post');
 
-const crypto = require('crypto');
-const path = require('path');
-const GridFsStorage = require('multer-gridfs-storage');
-const Grid = require('gridfs-stream');
+const multer = require('multer');
 
-const conn = mongoose.createConnection(keys.mongoURI);
-
-let gfs;
-
-conn.once('open', () => {
-  gfs = Grid(conn.db(), mongoose.mongo);
-  gfs.collection('uploads');
-});
-
-const storage = new GridFsStorage({
-  url: keys.MongoURI,
-  file: (req, file) => {
-    return new Promise((resolve, reject) => {
-      crypto.randomBytes(16, (err, buf) => {
-        if (err) return reject(err);
-        const filename = buf.toString('hex') + path.extname(file.originalname);
-        const fileInfo = {
-          filename: filename,
-          bucketName: 'uploads'
-        };
-        resolve(fileInfo);
-      });
-    });
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, './uploads/postImages');
+  },
+  filename: (req, file, cb) => {
+    cb(null, file.originalname);
   }
 });
-const upload = multer({ storage });
+
+const fileFilter = (req, file, cb) => {
+  if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
+    cb(null, true);
+  } else {
+    cb(null, false);
+  }
+};
+
+const upload = multer({
+  storage,
+  limits: { fileSize: 1024 * 1024 * 5 },
+  fileFilter
+});
 
 router.get('/', (req, res) => {
   Post.find()
@@ -55,6 +47,7 @@ router.get('/:id', (req, res) => {
     .catch(err => res.json({ post: 'No post found with that ID' }));
 });
 
+// TODO: Replace all \\ for multer uploads with /
 router.post(
   '/',
   passport.authenticate('jwt', { session: false }),
@@ -63,13 +56,17 @@ router.post(
     const { errors, isValid } = validatePost(req.body);
 
     if (!isValid) return res.status(400).json(errors);
-    console.log(req);
 
     const newPost = new Post({
       text: req.body.text,
       name: req.body.name,
-      postImage: req.body.postImage,
-      user: req.user.id
+      postImage: req.file.path,
+      account: req.user.id
+    });
+
+    Account.findOne({ username: req.user.username }).then(account => {
+      account.posts.push({ post: newPost });
+      account.save();
     });
 
     newPost.save().then(post => res.json(post));
@@ -83,7 +80,7 @@ router.delete(
     Account.findOne({ user: req.user.id }).then(account => {
       Post.findById(req.params.id)
         .then(post => {
-          if (post.user.toString() !== req.user.id) {
+          if (post.account.toString() !== req.user.id) {
             return res
               .status(401)
               .json({ unauthorized: 'User not authorized' });
@@ -92,42 +89,53 @@ router.delete(
         })
         .catch(err => res.status(404).json({ post: 'No post found' }));
     });
+
+    Account.findOne({ username: req.user.username }).then(account => {
+      console.log(account);
+      const removeIndex = account.posts
+        .map(item => item.id.toString())
+        .indexOf(req.user.id);
+      account.posts.splice(removeIndex, 1);
+      console.log('Splicing Posts...', removeIndex);
+      account.save();
+    });
   }
 );
 
 router.post(
-  '/like/:id',
+  '/:id/like',
   passport.authenticate('jwt', { session: false }),
   (req, res) => {
     Account.findOne({ user: req.user.id }).then(account => {
       Post.findById(req.params.id)
         .then(post => {
           if (
-            post.likes.filter(like => like.user.toString() === req.user.id)
+            post.likes.filter(like => like.account.toString() === req.user.id)
               .length > 0
           ) {
             return res
               .status(400)
               .json({ alreadyliked: 'User already liked this post' });
           }
-          post.likes.unshift({ user: req.user.id });
+
+          post.likes.unshift({ account: req.user.id });
 
           post.save().then(post => res.json(post));
         })
-        .catch(err => res.status(404).json({ post: 'No post found' }));
+        .catch(err => res.status(404).json({ postnotfound: 'No post found' }));
     });
   }
 );
 
 router.post(
-  '/unlike/:id',
+  '/:id/unlike',
   passport.authenticate('jwt', { session: false }),
   (req, res) => {
     Account.findOne({ user: req.user.id }).then(account => {
       Post.findById(req.params.id)
         .then(post => {
           if (
-            post.likes.filter(like => like.user.toString() === req.user.id)
+            post.likes.filter(like => like.account.toString() === req.user.id)
               .length === 0
           ) {
             return res
@@ -135,7 +143,7 @@ router.post(
               .json({ notliked: 'You have not yet liked this post' });
           }
           const removeIndex = post.likes
-            .map(item => item.user.toString())
+            .map(item => item.account.toString())
             .indexOf(req.user.id);
           post.likes.splice(removeIndex, 1);
           post.save().then(post => res.json(post));

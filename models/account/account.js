@@ -29,8 +29,8 @@ const accountSchema = new mongoose.Schema({
     minlength: 5
   },
   avatar: {
-    type: String,
-    required: true
+    type: String
+    // required: true
   },
   followers: [
     {
@@ -45,6 +45,14 @@ const accountSchema = new mongoose.Schema({
       user: {
         type: Schema.Types.ObjectId,
         ref: 'Account'
+      }
+    }
+  ],
+  posts: [
+    {
+      post: {
+        type: Schema.Types.ObjectId,
+        ref: 'Post'
       }
     }
   ]

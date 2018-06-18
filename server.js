@@ -3,8 +3,9 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const passport = require('passport');
 const keys = require('./config/keys');
-const path = require('path');
-const crypto = require('crypto');
+// const path = require('path');
+// const crypto = require('crypto');
+// const multer = require('multer');
 
 const accountRouter = require('./routes/api/accounts/accounts');
 const postRouter = require('./routes/api/posts/posts');
@@ -16,6 +17,7 @@ mongoose
 
 const app = express();
 
+app.use('/uploads', express.static('uploads'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
