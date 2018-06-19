@@ -32,18 +32,22 @@ const styles = {
 class Navigation extends Component {
   render() {
     const { classes } = this.props;
-    console.log(this.props);
     return (
       <div className={classes.root}>
         <AppBar position="static">
           <Toolbar className={classes.toolbar}>
-            <Typography
-              variant="title"
-              color="inherit"
-              className={classes.flex}
+            <Link
+              to="/"
+              style={{ flex: 1, textDecoration: 'none', color: 'inherit' }}
             >
-              Mernstagram
-            </Typography>
+              <Typography
+                variant="title"
+                color="inherit"
+                className={classes.flex}
+              >
+                Mernstagram
+              </Typography>
+            </Link>
             {/* <input /> */}
             <Link to="/explore">
               <img

@@ -33,7 +33,7 @@ const upload = multer({
 
 const router = express.Router();
 
-const { Account, accountSchema } = require('../../../models/account/account');
+const Account = require('../../../models/account/account');
 
 const validateRegister = require('../../../validation/register');
 const validateLogin = require('../../../validation/login');

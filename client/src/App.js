@@ -31,7 +31,7 @@ class App extends Component {
             <Route exact path="/" component={Landing} />
             <Route exact path="/login" component={Login} />
             <div>
-              <Navigation clicked={console.log(this.props)} />
+              <Navigation />
               <Route exact path="/feed" component={HomeFeed} />
               <Route exact path="/user/:id" component={ViewProfile} />
             </div>
