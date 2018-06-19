@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 // const { followerSchema } = require('../folower/follower');
 
-const accountSchema = new mongoose.Schema({
+const accountSchema = new Schema({
   email: {
     type: String,
     required: true,
@@ -58,9 +58,4 @@ const accountSchema = new mongoose.Schema({
   ]
 });
 
-const Account = mongoose.model('Account', accountSchema);
-
-module.exports = {
-  Account,
-  accountSchema
-};
+module.exports = Account = mongoose.model('Account', accountSchema);

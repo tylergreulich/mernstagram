@@ -3,8 +3,8 @@ const mongoose = require('mongoose');
 // const path = require('path');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const passport = require('passport');
 const keys = require('../../../config/keys');
+const passport = require('passport');
 
 const multer = require('multer');
 
@@ -106,7 +106,8 @@ router.post('/login', (req, res) => {
         const payload = {
           id: account.id,
           username: account.username,
-          avatar: account.avatar
+          avatar: account.avatar,
+          fullname: account.fullname
         };
 
         jwt.sign(

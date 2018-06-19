@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
+
+import { Link, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { loginUser } from '../../../store/actions/authActions';
 
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
@@ -14,38 +17,81 @@ class Login extends Component {
     password: '',
     errors: {}
   };
+
+  componentDidMount() {
+    this.setState({ errors: '' });
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.auth.isAuthenticated) {
+      this.props.history.push('/feed');
+    }
+
+    if (nextProps.errors) {
+      this.setState({ errors: nextProps.errors });
+    }
+  }
+
+  onSubmitHandler = event => {
+    event.preventDefault();
+
+    const userData = {
+      email: this.state.email,
+      password: this.state.password
+    };
+
+    this.props.loginUser(userData, this.props.history);
+  };
+
+  onChangeHandler = event => {
+    this.setState({ [event.target.name]: event.target.value });
+  };
+
   render() {
-    const { email, password } = this.state;
+    const { email, password, errors } = this.state;
 
     return (
-      <SignupFormContainer>
+      <SignupFormContainer onSubmit={this.onSubmitHandler}>
         <Typography variant="display3">Login</Typography>
         <ThemeWrapper>
           <TextField
-            id="name"
-            label="Email"
+            error={errors.email}
+            label={errors.email ? errors.email : 'Email'}
             value={email}
             margin="normal"
             name="email"
             onChange={this.onChangeHandler}
           />
           <TextField
-            id="name"
-            label="Password"
+            type="password"
+            error={errors.password}
+            label={errors.password ? errors.password : 'Password'}
             value={password}
             margin="normal"
             name="password"
             onChange={this.onChangeHandler}
           />
-          <Link to="/feed">
-            <Button variant="contained" color="primary">
-              Login
-            </Button>
-          </Link>
+          <Button variant="contained" color="primary" type="submit">
+            Login
+          </Button>
         </ThemeWrapper>
       </SignupFormContainer>
     );
   }
 }
 
-export default Login;
+Login.propTypes = {
+  errors: PropTypes.object.isRequired,
+  auth: PropTypes.object.isRequired,
+  loginUser: PropTypes.func.isRequired
+};
+
+const mapStateToProps = state => ({
+  errors: state.errors,
+  auth: state.auth
+});
+
+export default connect(
+  mapStateToProps,
+  { loginUser }
+)(withRouter(Login));

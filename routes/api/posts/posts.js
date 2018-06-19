@@ -5,7 +5,7 @@ const passport = require('passport');
 const keys = require('../../../config/keys');
 
 const Post = require('../../../models/post/post');
-const { Account, accountSchema } = require('../../../models/account/account');
+const Account = require('../../../models/account/account');
 
 const validatePost = require('../../../validation/post');
 
@@ -61,7 +61,8 @@ router.post(
       text: req.body.text,
       name: req.body.name,
       postImage: req.file.path,
-      account: req.user.id
+      account: req.user.id,
+      username: req.user.username
     });
 
     Account.findOne({ username: req.user.username }).then(account => {

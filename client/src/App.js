@@ -1,15 +1,24 @@
 import React, { Component } from 'react';
-import { Provider } from 'react-redux';
 
 import Landing from './components/Auth/Landing/Landing';
 import Login from './components/Auth/Login/Login';
-import store from './store/store';
-
 import HomeFeed from './components/Feed/HomeFeed/HomeFeed';
+import Navigation from './components/Navigation/Navigation';
+import ViewProfile from './components/Profile/ViewProfile';
 
-import './App.css';
-
+import store from './store/store';
+import { Provider } from 'react-redux';
 import { BrowserRouter, Route, Switch, Link } from 'react-router-dom';
+
+import jwt_decode from 'jwt-decode';
+import setAuthToken from './utilities/setAuthToken';
+import { setCurrentUser } from './store/actions/authActions';
+
+if (localStorage.jwtToken) {
+  setAuthToken(localStorage.jwtToken);
+  const decoded = jwt_decode(localStorage.jwtToken);
+  store.dispatch(setCurrentUser(decoded));
+}
 
 class App extends Component {
   render() {
@@ -20,9 +29,11 @@ class App extends Component {
             {/* TODO: Change root path depending on if user is logged in or not */}
             {/* User !signedin ? render => 'Landing' : 'HomeFeed' */}
             <Route exact path="/" component={Landing} />
+            <Route exact path="/login" component={Login} />
             <div>
-              <Route exact path="/login" component={Login} />
+              <Navigation clicked={console.log(this.props)} />
               <Route exact path="/feed" component={HomeFeed} />
+              <Route exact path="/user/:id" component={ViewProfile} />
             </div>
           </div>
         </BrowserRouter>

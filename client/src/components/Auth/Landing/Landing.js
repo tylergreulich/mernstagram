@@ -22,6 +22,12 @@ class Landing extends Component {
     errors: {}
   };
 
+  componentDidMount() {
+    if (this.props.auth.isAuthenticated) {
+      this.props.history.push('/feed');
+    }
+  }
+
   componentWillReceiveProps(nextProps) {
     if (nextProps.errors) {
       this.setState({ errors: nextProps.errors });
@@ -54,7 +60,7 @@ class Landing extends Component {
         <ThemeWrapper>
           <Typography variant="display3">Sign Up</Typography>
           <TextField
-            error={errors ? errors.email : null}
+            error={errors.email}
             label={errors.email ? errors.email : 'Email'}
             value={email}
             margin="normal"
@@ -62,7 +68,7 @@ class Landing extends Component {
             onChange={this.onChangeHandler}
           />
           <TextField
-            error={errors ? errors.fullname : null}
+            error={errors.fullname}
             label={errors.fullname ? errors.fullname : 'Full name'}
             value={fullname}
             margin="normal"
@@ -70,7 +76,7 @@ class Landing extends Component {
             onChange={this.onChangeHandler}
           />
           <TextField
-            error={errors ? errors.name : null}
+            error={errors.name}
             label={errors.name ? errors.name : 'Username'}
             value={username}
             margin="normal"
@@ -79,7 +85,7 @@ class Landing extends Component {
           />
           <TextField
             type="password"
-            error={errors ? errors.password : null}
+            error={errors.password}
             label={errors.password ? errors.password : 'Password'}
             value={password}
             margin="normal"
@@ -94,7 +100,6 @@ class Landing extends Component {
               width: '30rem'
             }}
           >
-            {/* <Link to="/login"> */}
             <Button
               variant="contained"
               color="primary"
@@ -103,7 +108,6 @@ class Landing extends Component {
             >
               Sign Up
             </Button>
-            {/* </Link> */}
             <Link to="/login">
               <Button
                 variant="contained"
