@@ -1,9 +1,9 @@
 import axios from 'axios';
-import { REGISTER_USER } from './actionTypes';
+import { SET_CURRENT_USER, GET_ERRORS } from './actionTypes';
 
-export const registerUser = userData => dispatch => {
+export const registerUser = (userData, history) => dispatch => {
   axios
-    .post('/api/accounts/register')
-    .then(res => dispatch({ type: REGISTER_USER, payload: userData }))
-    .catch(err => console.log(err));
+    .post('/api/accounts/register', userData)
+    .then(res => history.push('/login'))
+    .catch(err => dispatch({ type: GET_ERRORS, payload: err.response.data }));
 };

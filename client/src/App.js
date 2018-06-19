@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
+import { Provider } from 'react-redux';
 
 import Landing from './components/Auth/Landing/Landing';
 import Login from './components/Auth/Login/Login';
+import store from './store/store';
 
 import HomeFeed from './components/Feed/HomeFeed/HomeFeed';
 
@@ -12,17 +14,19 @@ import { BrowserRouter, Route, Switch, Link } from 'react-router-dom';
 class App extends Component {
   render() {
     return (
-      <BrowserRouter>
-        <div>
-          {/* TODO: Change root path depending on if user is logged in or not */}
-          {/* User !signedin ? render => 'Landing' : 'HomeFeed' */}
-          <Route exact path="/" component={Landing} />
+      <Provider store={store}>
+        <BrowserRouter>
           <div>
-            <Route exact path="/login" component={Login} />
-            <Route exact path="/feed" component={HomeFeed} />
+            {/* TODO: Change root path depending on if user is logged in or not */}
+            {/* User !signedin ? render => 'Landing' : 'HomeFeed' */}
+            <Route exact path="/" component={Landing} />
+            <div>
+              <Route exact path="/login" component={Login} />
+              <Route exact path="/feed" component={HomeFeed} />
+            </div>
           </div>
-        </div>
-      </BrowserRouter>
+        </BrowserRouter>
+      </Provider>
     );
   }
 }

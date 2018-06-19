@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { withRouter, Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-import axios from 'axios';
+import { connect } from 'react-redux';
+import { registerUser } from '../../../store/actions/authActions';
 
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-
 import ThemeWrapper from '../../StyledComponents/MuiTheme';
 
 import SignupFormContainer from '../../StyledComponents/SignupFormContainer';
@@ -23,6 +22,12 @@ class Landing extends Component {
     errors: {}
   };
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.errors) {
+      this.setState({ errors: nextProps.errors });
+    }
+  }
+
   onSubmitHandler = event => {
     event.preventDefault();
 
@@ -34,10 +39,7 @@ class Landing extends Component {
       username
     };
 
-    axios
-      .post('/api/accounts/register', userData)
-      .then(res => console.log(res.data))
-      .catch(err => this.setState({ errors: err.response.data }));
+    this.props.registerUser(userData, this.props.history);
   };
 
   onChangeHandler = event => {
@@ -46,7 +48,6 @@ class Landing extends Component {
 
   render() {
     const { email, password, fullname, username, errors } = this.state;
-    console.log(errors);
 
     return (
       <SignupFormContainer onSubmit={this.onSubmitHandler}>
@@ -85,6 +86,7 @@ class Landing extends Component {
             name="password"
             onChange={this.onChangeHandler}
           />
+
           <div
             style={{
               display: 'flex',
@@ -118,4 +120,18 @@ class Landing extends Component {
   }
 }
 
-export default Landing;
+Landing.propTypes = {
+  registerUser: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
+  errors: PropTypes.object.isRequired
+};
+
+const mapStateToProps = state => ({
+  auth: state.auth,
+  errors: state.errors
+});
+
+export default connect(
+  mapStateToProps,
+  { registerUser }
+)(withRouter(Landing));
