@@ -4,13 +4,13 @@ import Landing from './components/Auth/Landing/Landing';
 import Login from './components/Auth/Login/Login';
 import HomeFeed from './components/Feed/HomeFeed/HomeFeed';
 import Navigation from './components/Navigation/Navigation';
-import ViewProfile from './components/Profile/ViewProfile';
+import YourProfile from './components/Profile/ViewProfile/YourProfile';
+import UserProfile from './components/Profile/ViewProfile/UserProfile';
 
 import store from './store/store';
 import { Provider } from 'react-redux';
 import { BrowserRouter, Route, Switch, Link, Redirect } from 'react-router-dom';
 import PrivateRoute from './components/Auth/PrivateRoute/PrivateRoute';
-// import PrivateGroup from './components/Auth/PrivateGroup/PrivateGroup';
 
 import jwt_decode from 'jwt-decode';
 import setAuthToken from './utilities/setAuthToken';
@@ -24,7 +24,7 @@ if (localStorage.jwtToken) {
   if (decoded.exp < currentTime) {
     store.dispatch(logoutUser());
     // TODO: Clear current profile
-    window.location.href('/login');
+    window.location.href = '/login';
   }
 }
 
@@ -44,7 +44,14 @@ class App extends Component {
                 <PrivateRoute exact path="/feed" component={HomeFeed} />
               </Switch>
               <Switch>
-                <PrivateRoute exact path="/user/:id" component={ViewProfile} />
+                <PrivateRoute exact path="/user/:id" component={UserProfile} />
+              </Switch>
+              <Switch>
+                <PrivateRoute
+                  exact
+                  path="/account/:id"
+                  component={YourProfile}
+                />
               </Switch>
             </div>
           </div>

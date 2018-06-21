@@ -56,7 +56,7 @@ class Navigation extends Component {
                 style={{ height: '2.5rem', marginLeft: '2rem' }}
               />
             </Link>
-            <Link to={`/user/${this.props.auth.user.id}`}>
+            <Link to={`/account/${this.props.auth.user.id}`}>
               <img
                 src={ProfileIcon}
                 alt="Profile"

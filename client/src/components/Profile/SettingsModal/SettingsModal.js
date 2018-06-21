@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { logoutUser } from '../../store/actions/authActions';
+import { logoutUser } from '../../../store/actions/authActions';
 
 import './SettingsModal.css';
 import TextField from '@material-ui/core/TextField';
-import ThemeWrapper from '../StyledComponents/MuiTheme';
+import ThemeWrapper from '../../StyledComponents/MuiTheme';
 
 class SettingsModal extends Component {
   state = {

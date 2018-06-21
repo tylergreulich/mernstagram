@@ -2,8 +2,8 @@ import {
   SET_PROFILE_LOADING,
   GET_FOLLOWING_FEED,
   GET_USER_POST_INFO,
-  GET_PROFILE_METRICS,
-  GET_PROFILE
+  GET_PROFILE,
+  FOLLOW_PROFILE
 } from '../actions/actionTypes';
 
 const initialState = {
@@ -22,7 +22,7 @@ const profileReducer = (state = initialState, action) => {
         loading: false
       };
 
-    case GET_PROFILE_METRICS:
+    case GET_PROFILE:
       return {
         ...state,
         profileMetrics: action.payload,

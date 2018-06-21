@@ -4,18 +4,18 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router-dom';
 
-import PageTitle from '../UI/PageTitle';
-import Aux from '../../hoc/Auxiliary';
+import PageTitle from '../../UI/PageTitle';
+import Aux from '../../../hoc/Auxiliary';
 import SettingsModal from '../SettingsModal/SettingsModal';
 
-import Settings from '../../images/icons/cog.svg';
-import DefaultAvatar from '../../images/default-avatar.png';
-import ThemeWrapper from '../StyledComponents/MuiTheme';
+import Settings from '../../../images/icons/cog.svg';
+import DefaultAvatar from '../../../images/default-avatar.png';
+import ThemeWrapper from '../../StyledComponents/MuiTheme';
 import Button from '@material-ui/core/Button';
-import PostAvatar from '../StyledComponents/PostAvatar';
+import PostAvatar from '../../StyledComponents/PostAvatar';
 import './ViewProfile.css';
 
-import { getProfileMetrics } from '../../store/actions/profileActions';
+import { getProfile } from '../../../store/actions/profileActions';
 
 class ViewProfile extends Component {
   state = {
@@ -25,7 +25,7 @@ class ViewProfile extends Component {
 
   componentDidMount() {
     if (this.props.match.params.id) {
-      this.props.getProfileMetrics(this.props.match.params.id);
+      this.props.getProfile(this.props.match.params.id);
     }
   }
 
@@ -100,6 +100,11 @@ class ViewProfile extends Component {
                     </div>
                   ) : null}
                 </div>
+                <div>
+                  <span style={{ fontSize: '2.1rem', fontWeight: 400 }}>
+                    {profileMetrics.fullname}
+                  </span>
+                </div>
               </div>
             </div>
           </section>
@@ -112,7 +117,7 @@ class ViewProfile extends Component {
 ViewProfile.propTypes = {
   auth: PropTypes.object.isRequired,
   profile: PropTypes.object.isRequired,
-  getProfileMetrics: PropTypes.func.isRequired
+  getProfile: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -122,5 +127,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { getProfileMetrics }
+  { getProfile }
 )(withRouter(ViewProfile));

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import Link from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 
 import DefaultImage from '../../images/default-avatar.png';
 import PostAvatar from '../StyledComponents/PostAvatar';
@@ -17,7 +17,7 @@ import Comment from '../../images/icons/comment.svg';
 
 class PostItem extends Component {
   render() {
-    const { post, auth } = this.props;
+    const { post, auth, history } = this.props;
 
     let comments;
 
@@ -31,7 +31,10 @@ class PostItem extends Component {
 
     return (
       <PostContainer>
-        <UserContainer>
+        <UserContainer
+          onClick={() => history.push(`/user/${this.props.post.account}`)}
+          style={{ cursor: 'pointer' }}
+        >
           <PostAvatar src={post.avatar || DefaultImage} alt="Avatar" />
           <Username>{post.username}</Username>
         </UserContainer>
@@ -71,4 +74,4 @@ const mapStateToProps = state => ({
 export default connect(
   mapStateToProps,
   null
-)(PostItem);
+)(withRouter(PostItem));

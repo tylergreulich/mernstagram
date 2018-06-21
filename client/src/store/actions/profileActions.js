@@ -3,7 +3,8 @@ import {
   GET_FOLLOWING_FEED,
   GET_ERRORS,
   SET_PROFILE_LOADING,
-  GET_PROFILE_METRICS
+  GET_PROFILE,
+  FOLLOW_PROFILE
 } from './actionTypes';
 
 export const getFollowingFeed = () => dispatch => {
@@ -14,11 +15,18 @@ export const getFollowingFeed = () => dispatch => {
     .catch(err => dispatch({ type: GET_FOLLOWING_FEED, payload: null }));
 };
 
-export const getProfileMetrics = id => dispatch => {
+export const getProfile = id => dispatch => {
   axios
     .get(`/api/accounts/${id}`)
-    .then(res => dispatch({ type: GET_PROFILE_METRICS, payload: res.data }))
-    .catch(err => dispatch({ type: GET_PROFILE_METRICS, payload: null }));
+    .then(res => dispatch({ type: GET_PROFILE, payload: res.data }))
+    .catch(err => dispatch({ type: GET_PROFILE, payload: null }));
+};
+
+export const followProfile = id => dispatch => {
+  axios
+    .post(`api/accounts/${id}/follow`)
+    .then(res => dispatch({ type: FOLLOW_PROFILE, payload: res.data }))
+    .catch(err => dispatch({ type: GET_ERRORS, payload: err.response.data }));
 };
 
 export const setProfileLoading = () => {
