@@ -1,0 +1,32 @@
+.editProfileButton {
+  text-decoration: none;
+  height: 0;
+  padding: 0 1.5rem;
+}
+
+.profileContainer {
+  height: 25rem;
+  background-color: #aaa;
+  display: flex;
+}
+
+.profileWrapper {
+  margin: 0 auto;
+  display: flex;
+  width: 85rem;
+  padding: 5rem 0;
+}
+
+.metricsContainer {
+  display: flex;
+  align-items: center;
+  width: 52%;
+  height: 100%;
+}
+
+.metricsWrapper {
+  display: flex;
+  font-size: 1.4rem;
+  width: 100%;
+  justify-content: space-between;
+}

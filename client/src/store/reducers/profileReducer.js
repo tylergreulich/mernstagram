@@ -1,13 +1,15 @@
 import {
   SET_PROFILE_LOADING,
   GET_FOLLOWING_FEED,
-  GET_USER_POST_INFO
+  GET_USER_POST_INFO,
+  GET_PROFILE_METRICS,
+  GET_PROFILE
 } from '../actions/actionTypes';
 
 const initialState = {
   loading: false,
   profile: {},
-  postInfo: [],
+  profileMetrics: [],
   profiles: []
 };
 
@@ -20,10 +22,11 @@ const profileReducer = (state = initialState, action) => {
         loading: false
       };
 
-    case GET_USER_POST_INFO:
+    case GET_PROFILE_METRICS:
       return {
         ...state,
-        postInfo: action.payload
+        profileMetrics: action.payload,
+        loading: false
       };
 
     case SET_PROFILE_LOADING:

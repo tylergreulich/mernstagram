@@ -8,16 +8,24 @@ import ViewProfile from './components/Profile/ViewProfile';
 
 import store from './store/store';
 import { Provider } from 'react-redux';
-import { BrowserRouter, Route, Switch, Link } from 'react-router-dom';
+import { BrowserRouter, Route, Switch, Link, Redirect } from 'react-router-dom';
+import PrivateRoute from './components/Auth/PrivateRoute/PrivateRoute';
+// import PrivateGroup from './components/Auth/PrivateGroup/PrivateGroup';
 
 import jwt_decode from 'jwt-decode';
 import setAuthToken from './utilities/setAuthToken';
-import { setCurrentUser } from './store/actions/authActions';
+import { setCurrentUser, logoutUser } from './store/actions/authActions';
 
 if (localStorage.jwtToken) {
   setAuthToken(localStorage.jwtToken);
   const decoded = jwt_decode(localStorage.jwtToken);
   store.dispatch(setCurrentUser(decoded));
+  const currentTime = Date.now() / 1000;
+  if (decoded.exp < currentTime) {
+    store.dispatch(logoutUser());
+    // TODO: Clear current profile
+    window.location.href('/login');
+  }
 }
 
 class App extends Component {
@@ -32,8 +40,12 @@ class App extends Component {
             <Route exact path="/login" component={Login} />
             <div>
               <Navigation />
-              <Route exact path="/feed" component={HomeFeed} />
-              <Route exact path="/user/:id" component={ViewProfile} />
+              <Switch>
+                <PrivateRoute exact path="/feed" component={HomeFeed} />
+              </Switch>
+              <Switch>
+                <PrivateRoute exact path="/user/:id" component={ViewProfile} />
+              </Switch>
             </div>
           </div>
         </BrowserRouter>

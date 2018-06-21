@@ -3,7 +3,7 @@ import {
   GET_FOLLOWING_FEED,
   GET_ERRORS,
   SET_PROFILE_LOADING,
-  GET_USER_POST_INFO
+  GET_PROFILE_METRICS
 } from './actionTypes';
 
 export const getFollowingFeed = () => dispatch => {
@@ -14,11 +14,11 @@ export const getFollowingFeed = () => dispatch => {
     .catch(err => dispatch({ type: GET_FOLLOWING_FEED, payload: null }));
 };
 
-export const getUserPostInfo = id => dispatch => {
+export const getProfileMetrics = id => dispatch => {
   axios
     .get(`/api/accounts/${id}`)
-    .then(res => dispatch({ type: GET_USER_POST_INFO, payload: res.data }))
-    .catch(err => dispatch({ type: GET_USER_POST_INFO, payload: null }));
+    .then(res => dispatch({ type: GET_PROFILE_METRICS, payload: res.data }))
+    .catch(err => dispatch({ type: GET_PROFILE_METRICS, payload: null }));
 };
 
 export const setProfileLoading = () => {

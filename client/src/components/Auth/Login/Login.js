@@ -19,7 +19,9 @@ class Login extends Component {
   };
 
   componentDidMount() {
-    this.setState({ errors: '' });
+    if (this.props.auth.isAuthenticated) {
+      this.props.history.push('/feed');
+    }
   }
 
   componentWillReceiveProps(nextProps) {
