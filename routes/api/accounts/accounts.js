@@ -1,6 +1,5 @@
 const express = require('express');
 const mongoose = require('mongoose');
-// const path = require('path');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const keys = require('../../../config/keys');
@@ -51,7 +50,6 @@ router.get('/:id', (req, res) => {
 
 // Register
 router.post('/register', upload.single('avatar'), (req, res) => {
-  console.log(req.file);
   const { errors, isValid } = validateRegister(req.body);
   if (!isValid) return res.status(400).json(errors);
 
@@ -62,7 +60,6 @@ router.post('/register', upload.single('avatar'), (req, res) => {
       errors.email = 'Email already exists';
       return res.status(400).json(errors);
     } else {
-      console.log(req.body);
       const { email, fullname, username, password } = req.body;
       let newAccount = new Account({
         email,

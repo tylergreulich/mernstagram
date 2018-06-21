@@ -6,3 +6,4 @@ export const SET_POSTS_LOADING = 'SET_POSTS_LOADING';
 export const GET_POSTS = 'GET_POSTS';
 export const GET_PROFILE = 'GET_PROFILE';
 export const FOLLOW_PROFILE = 'FOLLOW_PROFILE';
+export const UNFOLLOW_PROFILE = 'UNFOLLOW_PROFILE';

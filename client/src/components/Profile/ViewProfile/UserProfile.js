@@ -20,15 +20,34 @@ import UnFollow from '../UnFollow/UnFollow';
 
 import {
   getProfile,
-  followProfile
+  followProfile,
+  unFollowProfile
 } from '../../../store/actions/profileActions';
 
-class ViewProfile extends Component {
+class UserProfile extends Component {
+  state = {
+    isFollowed: false,
+    errors: {}
+  };
+
   componentDidMount() {
     if (this.props.match.params.id) {
       this.props.getProfile(this.props.match.params.id);
     }
   }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.errors) {
+      this.setState({ errors: nextProps.errors });
+    }
+  }
+
+  onFollowHandler = id => {
+    this.props.followProfile(id);
+    this.setState({ isFollowed: true });
+  };
+
+  onUnFollowHandler = id => this.props.unFollowProfile(id);
 
   render() {
     const { profileMetrics } = this.props.profile;
@@ -41,9 +60,18 @@ class ViewProfile extends Component {
         follower => follower.user === currentUser.id
       );
       if (isFollowing.length) {
-        isFollow = <UnFollow />;
+        isFollow = (
+          <UnFollow
+            clicked={id => this.onUnFollowHandler(profileMetrics._id)}
+          />
+        );
       } else {
-        isFollow = <Follow />;
+        isFollow = (
+          <Follow
+            clicked={id => this.onFollowHandler(profileMetrics._id)}
+            isFollowed={this.state.isFollowed}
+          />
+        );
       }
     }
 
@@ -90,7 +118,7 @@ class ViewProfile extends Component {
   }
 }
 
-ViewProfile.propTypes = {
+UserProfile.propTypes = {
   auth: PropTypes.object.isRequired,
   profile: PropTypes.object.isRequired,
   getProfile: PropTypes.func.isRequired,
@@ -104,5 +132,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { getProfile, followProfile }
-)(withRouter(ViewProfile));
+  { getProfile, followProfile, unFollowProfile }
+)(withRouter(UserProfile));

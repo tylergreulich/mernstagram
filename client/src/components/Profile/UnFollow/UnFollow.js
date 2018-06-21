@@ -9,8 +9,9 @@ const UnFollow = props => {
       <ThemeWrapper>
         <Button
           variant="contained"
-          color="primary"
+          color="secondary"
           style={{ width: '15rem', margin: 0 }}
+          onClick={props.clicked}
         >
           UnFollow
         </Button>

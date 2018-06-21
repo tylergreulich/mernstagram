@@ -41,6 +41,15 @@ const theme = createMuiTheme({
         '&:hover': {
           backgroundColor: 'rgba(0, 167, 188, 0.7)'
         }
+      },
+      containedSecondary: {
+        width: '30rem',
+        marginTop: '1.2rem',
+        fontSize: '1.7rem'
+        // backgroundColor: 'rgba(0, 188, 212, 0.7)',
+        // '&:hover': {
+        //   backgroundColor: 'rgba(0, 167, 188, 0.7)'
+        // }
       }
     },
     MuiTypography: {

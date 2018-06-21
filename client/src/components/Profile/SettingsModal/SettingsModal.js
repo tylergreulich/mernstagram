@@ -23,7 +23,7 @@ class SettingsModal extends Component {
   onLogoutHandler = event => {
     event.preventDefault();
     this.props.logoutUser();
-    this.props.history.push('/');
+    this.props.history.push('/login');
   };
 
   render() {

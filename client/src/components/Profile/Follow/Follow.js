@@ -11,8 +11,9 @@ const Follow = props => {
           variant="contained"
           color="primary"
           style={{ width: '15rem', margin: 0 }}
+          onClick={props.clicked}
         >
-          Follow
+          {props.isFollowed ? 'Followed' : 'Follow'}
         </Button>
       </ThemeWrapper>
     </Aux>

@@ -4,7 +4,8 @@ import {
   GET_ERRORS,
   SET_PROFILE_LOADING,
   GET_PROFILE,
-  FOLLOW_PROFILE
+  FOLLOW_PROFILE,
+  UNFOLLOW_PROFILE
 } from './actionTypes';
 
 export const getFollowingFeed = () => dispatch => {
@@ -24,8 +25,15 @@ export const getProfile = id => dispatch => {
 
 export const followProfile = id => dispatch => {
   axios
-    .post(`api/accounts/${id}/follow`)
+    .post(`/api/accounts/${id}/follow`)
     .then(res => dispatch({ type: FOLLOW_PROFILE, payload: res.data }))
+    .catch(err => dispatch({ type: GET_ERRORS, payload: err.response.data }));
+};
+
+export const unFollowProfile = id => dispatch => {
+  axios
+    .delete(`/api/accounts/${id}/unfollow`)
+    .then(res => dispatch({ type: UNFOLLOW_PROFILE, payload: res.data }))
     .catch(err => dispatch({ type: GET_ERRORS, payload: err.response.data }));
 };
 
