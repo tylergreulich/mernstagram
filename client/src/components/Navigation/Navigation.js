@@ -8,8 +8,11 @@ import { Link, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
+import NavBarLink from '../StyledComponents/NavBarLink';
+
 import ProfileIcon from '../../images/icons/user.svg';
 import DiscoverIcon from '../../images/icons/compass.svg';
+import UploadIcon from '../../images/icons/upload.svg';
 
 const styles = {
   root: {
@@ -49,20 +52,27 @@ class Navigation extends Component {
               </Typography>
             </Link>
             {/* <input /> */}
-            <Link to="/explore">
+            <NavBarLink to="/posts/upload">
+              <img
+                src={UploadIcon}
+                alt="Upload"
+                style={{ height: '2.5rem', margin: '0 .5rem' }}
+              />
+            </NavBarLink>
+            <NavBarLink to="/explore">
               <img
                 src={DiscoverIcon}
                 alt="Discover"
-                style={{ height: '2.5rem', marginLeft: '2rem' }}
+                style={{ height: '2.5rem', margin: '0 .5rem' }}
               />
-            </Link>
-            <Link to={`/account/${this.props.auth.user.id}`}>
+            </NavBarLink>
+            <NavBarLink to={`/account/${this.props.auth.user.id}`}>
               <img
                 src={ProfileIcon}
                 alt="Profile"
-                style={{ height: '2.5rem' }}
+                style={{ height: '2.5rem', margin: '0 .5rem' }}
               />
-            </Link>
+            </NavBarLink>
           </Toolbar>
         </AppBar>
       </div>

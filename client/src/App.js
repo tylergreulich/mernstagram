@@ -6,6 +6,7 @@ import HomeFeed from './components/Feed/HomeFeed/HomeFeed';
 import Navigation from './components/Navigation/Navigation';
 import YourProfile from './components/Profile/ViewProfile/YourProfile';
 import UserProfile from './components/Profile/ViewProfile/UserProfile';
+import Upload from './components/Upload/Upload';
 
 import store from './store/store';
 import { Provider } from 'react-redux';
@@ -42,6 +43,9 @@ class App extends Component {
               <Navigation />
               <Switch>
                 <PrivateRoute exact path="/feed" component={HomeFeed} />
+              </Switch>
+              <Switch>
+                <PrivateRoute exact path="/posts/upload" component={Upload} />
               </Switch>
               <Switch>
                 <PrivateRoute exact path="/user/:id" component={UserProfile} />

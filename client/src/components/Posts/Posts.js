@@ -6,8 +6,6 @@ import { getPosts } from '../../store/actions/postActions';
 import PostFeed from './PostFeed';
 
 class Posts extends Component {
-  state = {};
-
   componentDidMount() {
     this.props.getPosts();
   }

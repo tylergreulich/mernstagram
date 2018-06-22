@@ -4,6 +4,7 @@ import {
   GET_ERRORS,
   SET_PROFILE_LOADING,
   GET_PROFILE,
+  GET_PROFILES,
   FOLLOW_PROFILE,
   UNFOLLOW_PROFILE
 } from './actionTypes';
@@ -21,6 +22,13 @@ export const getProfile = id => dispatch => {
     .get(`/api/accounts/${id}`)
     .then(res => dispatch({ type: GET_PROFILE, payload: res.data }))
     .catch(err => dispatch({ type: GET_PROFILE, payload: null }));
+};
+
+export const getProfiles = () => dispatch => {
+  axios
+    .get(`/api/accounts/`)
+    .then(res => dispatch({ type: GET_PROFILES, payload: res.data }))
+    .catch(err => dispatch({ type: GET_PROFILES, payload: null }));
 };
 
 export const followProfile = id => dispatch => {

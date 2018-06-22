@@ -12,12 +12,18 @@ import PostImageStyles from '../StyledComponents/PostImageStyles';
 import LikeCommentContainer from '../StyledComponents/LikeCommentContainer';
 import AddComment from '../StyledComponents/AddComment';
 
+import { getProfile } from '../../store/actions/profileActions';
+
 import Like from '../../images/icons/heart.svg';
 import Comment from '../../images/icons/comment.svg';
 
 class PostItem extends Component {
+  componentWillMount() {
+    this.props.getProfile(this.props.auth.user.id);
+  }
+
   render() {
-    const { post, auth, history } = this.props;
+    const { post, auth, history, profile } = this.props;
 
     let comments;
 
@@ -28,6 +34,12 @@ class PostItem extends Component {
         </div>
       ));
     }
+
+    let isFollowing;
+
+    // if (auth.isAuthenticated && post.account) {
+    //   const filterPosts = this.props.post.posts.filter(post => post.account)
+    // }
 
     return (
       <PostContainer>
@@ -68,10 +80,11 @@ PostItem.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  auth: state.auth
+  auth: state.auth,
+  profile: state.profile
 });
 
 export default connect(
   mapStateToProps,
-  null
+  { getProfile }
 )(withRouter(PostItem));
