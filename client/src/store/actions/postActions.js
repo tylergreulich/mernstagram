@@ -4,7 +4,10 @@ import {
   SET_POSTS_LOADING,
   GET_ERRORS,
   UPLOAD_POST,
-  DELETE_POST
+  DELETE_POST,
+  LIKE_POST,
+  UNLIKE_POST,
+  ADD_COMMENT
 } from './actionTypes';
 
 export const getPosts = () => dispatch => {
@@ -27,6 +30,27 @@ export const deletePost = id => dispatch => {
     .delete(`api/posts/${id}`)
     .then(res => dispatch({ type: DELETE_POST, payload: id }))
     .catch(err => dispatch({ type: DELETE_POST, payload: null }));
+};
+
+export const likePost = id => dispatch => {
+  axios
+    .post(`/api/posts/${id}/like`)
+    .then(res => dispatch(getPosts()))
+    .catch(err => dispatch({ type: GET_ERRORS, payload: err.response.data }));
+};
+
+export const unLikePost = id => dispatch => {
+  axios
+    .post(`/api/posts/${id}/unlike`)
+    .then(res => dispatch(getPosts()))
+    .catch(err => dispatch({ type: GET_ERRORS, payload: err.response.data }));
+};
+
+export const addComment = (id, newComment) => dispatch => {
+  axios
+    .post(`/api/posts/${id}/comment`, newComment)
+    .then(res => dispatch(getPosts()))
+    .catch(err => dispatch({ type: GET_ERRORS, payload: err.resonse.data }));
 };
 
 export const setPostsLoading = () => {
