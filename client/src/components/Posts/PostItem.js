@@ -39,6 +39,7 @@ class PostItem extends Component {
   onDeletePostHandler = id => this.props.deletePost(id);
 
   onLikePostHandler = id => this.props.likePost(id);
+
   onUnLikePostHandler = id => this.props.unLikePost(id);
 
   onSubmitHandler = (event, id) => {
@@ -61,7 +62,7 @@ class PostItem extends Component {
     const { post, auth, history, profile } = this.props;
 
     let comments;
-    console.log(post.comments);
+    console.log(this.props);
 
     if (post.comments) {
       comments = post.comments.map(comment => (

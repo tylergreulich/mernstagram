@@ -6,7 +6,8 @@ import {
   GET_PROFILE,
   GET_PROFILES,
   FOLLOW_PROFILE,
-  UNFOLLOW_PROFILE
+  UNFOLLOW_PROFILE,
+  UPLOAD_AVATAR
 } from './actionTypes';
 
 export const getFollowingFeed = () => dispatch => {
@@ -42,6 +43,13 @@ export const unFollowProfile = id => dispatch => {
   axios
     .delete(`/api/accounts/${id}/unfollow`)
     .then(res => dispatch({ type: UNFOLLOW_PROFILE, payload: res.data }))
+    .catch(err => dispatch({ type: GET_ERRORS, payload: err.response.data }));
+};
+
+export const uploadAvatar = (id, fd) => dispatch => {
+  axios
+    .put(`api/accounts/${id}`, fd)
+    .then(res => dispatch(getProfile()))
     .catch(err => dispatch({ type: GET_ERRORS, payload: err.response.data }));
 };
 

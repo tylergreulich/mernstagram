@@ -13,3 +13,4 @@ export const DELETE_POST = 'DELETE_POST';
 export const LIKE_POST = 'LIKE_POST';
 export const UNLIKE_POST = 'UNLIKE_POST';
 export const ADD_COMMENT = 'ADD_COMMENT';
+export const UPLOAD_AVATAR = 'UPLOAD_AVATAR';

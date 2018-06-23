@@ -15,12 +15,17 @@ import Button from '@material-ui/core/Button';
 import PostAvatar from '../../StyledComponents/PostAvatar';
 import './ViewProfile.css';
 
-import { getProfile } from '../../../store/actions/profileActions';
+import {
+  getProfile,
+  uploadAvatar
+} from '../../../store/actions/profileActions';
 
 class ViewProfile extends Component {
   state = {
     isSettingsModal: false,
-    isChangePassword: false
+    isChangePassword: false,
+    avatar: null,
+    uploaded: false
   };
 
   componentDidMount() {
@@ -28,6 +33,23 @@ class ViewProfile extends Component {
       this.props.getProfile(this.props.match.params.id);
     }
   }
+
+  // fileChangedHandler = event => {
+  //   this.setState({
+  //     avatar: event.target.files[0]
+  //   });
+  // };
+
+  // onSubmitHandler = (id, event) => {
+  //   event.preventDefault();
+  //   if (this.state.avatar) {
+  //     const fd = new FormData();
+  //     fd.append('avatar', this.state.avatar, this.state.avatar.name);
+
+  //     this.props.uploadAvatar(id, fd);
+  //     this.setState({ uploaded: true });
+  //   }
+  // };
 
   render() {
     const { profileMetrics } = this.props.profile;
@@ -78,6 +100,18 @@ class ViewProfile extends Component {
                   alt="Profile Avatar"
                   style={{ height: '15rem' }}
                 />
+                {/* <form
+                  onSubmit={(event, id) =>
+                    this.onSubmitHandler(event, this.props.match.params.id)
+                  }
+                >
+                  <input
+                    type="file"
+                    onChange={this.fileChangedHandler}
+                    name="avatar"
+                  />
+                  <button>Upload Avatar</button>
+                </form> */}
               </div>
               <div style={{ flex: 0.7, padding: '2rem' }}>
                 <div style={{ display: 'flex', width: '100%' }}>
@@ -127,5 +161,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { getProfile }
+  { getProfile, uploadAvatar }
 )(withRouter(ViewProfile));

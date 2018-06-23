@@ -159,7 +159,7 @@ router.put(
     const { errors, isValid } = validateAccount(req.body);
     if (!isValid) return res.status(400).json(errors);
 
-    const { username, email, website } = req.body;
+    const { username, email, website, avatar } = req.body;
 
     Account.findByIdAndUpdate(
       req.params.id,
@@ -167,7 +167,8 @@ router.put(
         $set: {
           username,
           email,
-          website
+          website,
+          avatar
         }
       },
       { new: true }
