@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import Spinner from '../UI/Spinner';
+// import Spinner from '../UI/Spinner';
 import { getPosts } from '../../store/actions/postActions';
 import PostFeed from './PostFeed';
 
@@ -14,9 +14,7 @@ class Posts extends Component {
 
     let postContent;
 
-    if (posts === null || loading) {
-      postContent = <h3>Loading</h3>;
-    } else {
+    if (posts !== null || !loading) {
       postContent = <PostFeed posts={posts} />;
     }
 

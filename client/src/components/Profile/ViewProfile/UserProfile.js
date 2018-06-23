@@ -27,6 +27,7 @@ import {
 class UserProfile extends Component {
   state = {
     isFollowed: false,
+    isUnFollowed: false,
     errors: {}
   };
 
@@ -37,6 +38,10 @@ class UserProfile extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    if (nextProps.auth.user.id === this.props.match.params.id) {
+      this.props.history.push(`/account/${this.props.auth.user.id}`);
+    }
+
     if (nextProps.errors) {
       this.setState({ errors: nextProps.errors });
     }
@@ -47,9 +52,16 @@ class UserProfile extends Component {
     this.setState({ isFollowed: true });
   };
 
-  onUnFollowHandler = id => this.props.unFollowProfile(id);
+  onUnFollowHandler = id => {
+    this.props.unFollowProfile(id);
+    this.setState({ isUnFollowed: true });
+    setTimeout(() => {
+      window.location.reload();
+    }, 1500);
+  };
 
   render() {
+    console.log(this.props.match.params.id);
     const { profileMetrics } = this.props.profile;
     const { isAuthenticated, user: currentUser } = this.props.auth;
 
@@ -63,6 +75,7 @@ class UserProfile extends Component {
         isFollow = (
           <UnFollow
             clicked={id => this.onUnFollowHandler(profileMetrics._id)}
+            isUnFollowed={this.state.isUnFollowed}
           />
         );
       } else {
@@ -108,6 +121,11 @@ class UserProfile extends Component {
                       <span>{profileMetrics.following.length} Following</span>
                     </div>
                   ) : null}
+                </div>
+                <div>
+                  <span style={{ fontSize: '2.1rem', fontWeight: 400 }}>
+                    {profileMetrics.fullname}
+                  </span>
                 </div>
               </div>
             </div>

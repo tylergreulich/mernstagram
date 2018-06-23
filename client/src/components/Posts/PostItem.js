@@ -13,6 +13,7 @@ import LikeCommentContainer from '../StyledComponents/LikeCommentContainer';
 import AddComment from '../StyledComponents/AddComment';
 
 import { getProfile } from '../../store/actions/profileActions';
+import { deletePost } from '../../store/actions/postActions';
 
 import Like from '../../images/icons/heart.svg';
 import Comment from '../../images/icons/comment.svg';
@@ -21,6 +22,10 @@ class PostItem extends Component {
   componentWillMount() {
     this.props.getProfile(this.props.auth.user.id);
   }
+
+  onDeletePostHandler = id => {
+    this.props.deletePost(this.props.post._id);
+  };
 
   render() {
     const { post, auth, history, profile } = this.props;
@@ -35,6 +40,26 @@ class PostItem extends Component {
       ));
     }
 
+    let isUserPost;
+
+    if (auth.isAuthenticated && post.account) {
+      if (auth.user.id === post.account) {
+        isUserPost = (
+          <div
+            style={{
+              alignSelf: 'center',
+              fontSize: '2.4rem',
+              marginLeft: '33rem',
+              cursor: 'pointer'
+            }}
+            onClick={() => this.onDeletePostHandler(post.id)}
+          >
+            X
+          </div>
+        );
+      }
+    }
+
     let isFollowing;
 
     // if (auth.isAuthenticated && post.account) {
@@ -43,13 +68,17 @@ class PostItem extends Component {
 
     return (
       <PostContainer>
-        <UserContainer
-          onClick={() => history.push(`/user/${this.props.post.account}`)}
-          style={{ cursor: 'pointer' }}
-        >
-          <PostAvatar src={post.avatar || DefaultImage} alt="Avatar" />
-          <Username>{post.username}</Username>
-        </UserContainer>
+        <div style={{ display: 'flex' }}>
+          <UserContainer
+            onClick={() => history.push(`/user/${this.props.post.account}`)}
+            style={{ cursor: 'pointer', flex: 0.7 }}
+          >
+            <PostAvatar src={post.avatar || DefaultImage} alt="Avatar" />
+            <Username>{post.username}</Username>
+          </UserContainer>
+          {isUserPost}
+        </div>
+
         <PostImageStyles src={post.postImage} alt="Broken Image" />
         <LikeCommentContainer>
           <div>
@@ -76,7 +105,8 @@ class PostItem extends Component {
 
 PostItem.propTypes = {
   post: PropTypes.object.isRequired,
-  auth: PropTypes.object.isRequired
+  auth: PropTypes.object.isRequired,
+  deletePost: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -86,5 +116,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { getProfile }
+  { getProfile, deletePost }
 )(withRouter(PostItem));

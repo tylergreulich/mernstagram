@@ -231,6 +231,7 @@ router.delete(
         const removeIndex = account.followers
           .map(item => item.user.toString())
           .indexOf(req.user.id);
+        // Remove follower
         account.followers.splice(removeIndex, 1);
         account.save();
       }

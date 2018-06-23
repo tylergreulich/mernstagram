@@ -13,7 +13,7 @@ const UnFollow = props => {
           style={{ width: '15rem', margin: 0 }}
           onClick={props.clicked}
         >
-          UnFollow
+          {props.isUnFollowed ? 'UnFollowed' : 'UnFollow'}
         </Button>
       </ThemeWrapper>
     </Aux>

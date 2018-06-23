@@ -9,3 +9,4 @@ export const GET_PROFILES = 'GET_PROFILES';
 export const FOLLOW_PROFILE = 'FOLLOW_PROFILE';
 export const UNFOLLOW_PROFILE = 'UNFOLLOW_PROFILE';
 export const UPLOAD_POST = 'UPLOAD_POST';
+export const DELETE_POST = 'DELETE_POST';

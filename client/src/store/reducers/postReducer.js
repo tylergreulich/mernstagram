@@ -1,7 +1,8 @@
 import {
   GET_POSTS,
   SET_POSTS_LOADING,
-  UPLOAD_POST
+  UPLOAD_POST,
+  DELETE_POST
 } from '../actions/actionTypes';
 
 const initialState = {
@@ -23,6 +24,12 @@ const postReducer = (state = initialState, action) => {
       return {
         ...state,
         post: action.payload
+      };
+
+    case DELETE_POST:
+      return {
+        ...state,
+        posts: state.posts.filter(post => post._id !== action.payload)
       };
 
     case SET_POSTS_LOADING:
