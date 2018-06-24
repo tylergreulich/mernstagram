@@ -50,7 +50,7 @@ export const addComment = (id, newComment) => dispatch => {
   axios
     .post(`/api/posts/${id}/comment`, newComment)
     .then(res => dispatch(getPosts()))
-    .catch(err => dispatch({ type: GET_ERRORS, payload: err.resonse.data }));
+    .catch(err => dispatch({ type: GET_ERRORS, payload: err.response.data }));
 };
 
 export const setPostsLoading = () => {

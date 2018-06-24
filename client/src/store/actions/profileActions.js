@@ -48,7 +48,7 @@ export const unFollowProfile = id => dispatch => {
 
 export const uploadAvatar = (id, fd) => dispatch => {
   axios
-    .put(`api/accounts/${id}`, fd)
+    .patch(`/api/accounts/${id}`, fd)
     .then(res => dispatch(getProfile()))
     .catch(err => dispatch({ type: GET_ERRORS, payload: err.response.data }));
 };

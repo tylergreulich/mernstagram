@@ -62,6 +62,7 @@ router.post(
       name: req.body.name,
       postImage: req.file.path,
       account: req.user.id,
+      avatar: req.user.avatar,
       username: req.user.username
     });
 
@@ -167,7 +168,7 @@ router.post(
         const newComment = {
           text: req.body.text,
           username: req.body.username,
-          avatar: req.body.avatar,
+          avatar: req.user.avatar,
           account: req.user.id
         };
 

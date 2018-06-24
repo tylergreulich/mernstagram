@@ -34,27 +34,28 @@ class ViewProfile extends Component {
     }
   }
 
-  // fileChangedHandler = event => {
-  //   this.setState({
-  //     avatar: event.target.files[0]
-  //   });
-  // };
+  fileChangedHandler = event => {
+    this.setState({
+      avatar: event.target.files[0]
+    });
+  };
 
-  // onSubmitHandler = (id, event) => {
-  //   event.preventDefault();
-  //   if (this.state.avatar) {
-  //     const fd = new FormData();
-  //     fd.append('avatar', this.state.avatar, this.state.avatar.name);
+  onSubmitHandler = (event, id) => {
+    event.preventDefault();
+    if (this.state.avatar) {
+      const fd = new FormData();
+      fd.append('avatar', this.state.avatar, this.state.avatar.name);
 
-  //     this.props.uploadAvatar(id, fd);
-  //     this.setState({ uploaded: true });
-  //   }
-  // };
+      this.props.uploadAvatar(id, fd);
+
+      this.setState({ uploaded: true });
+    }
+  };
 
   render() {
     const { profileMetrics } = this.props.profile;
-    console.log(profileMetrics);
     const { username, avatar, id } = this.props.auth.user;
+    console.log(profileMetrics.avatar);
 
     let editProfile;
 
@@ -94,15 +95,26 @@ class ViewProfile extends Component {
         <ThemeWrapper>
           <section className="profileContainer">
             <div className="profileWrapper">
-              <div style={{ display: 'flex', alignItems: 'center', flex: 0.3 }}>
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  flex: 0.3,
+                  flexDirection: 'column'
+                }}
+              >
                 <PostAvatar
-                  src={avatar || DefaultAvatar}
+                  src={
+                    profileMetrics.avatar
+                      ? `http://localhost:5000/${profileMetrics.avatar}`
+                      : DefaultAvatar
+                  }
                   alt="Profile Avatar"
-                  style={{ height: '15rem' }}
+                  style={{ height: '15rem', maxWidth: '12rem' }}
                 />
-                {/* <form
+                <form
                   onSubmit={(event, id) =>
-                    this.onSubmitHandler(event, this.props.match.params.id)
+                    this.onSubmitHandler(event, this.props.auth.user.id)
                   }
                 >
                   <input
@@ -110,13 +122,17 @@ class ViewProfile extends Component {
                     onChange={this.fileChangedHandler}
                     name="avatar"
                   />
-                  <button>Upload Avatar</button>
-                </form> */}
+                  <button type="submit">Upload Avatar</button>
+                </form>
               </div>
               <div style={{ flex: 0.7, padding: '2rem' }}>
                 <div style={{ display: 'flex', width: '100%' }}>
                   <span
-                    style={{ fontSize: '3.5rem', fontWeight: 100, flex: 0.3 }}
+                    style={{
+                      fontSize: '3.5rem',
+                      fontWeight: 100,
+                      flex: 0.3
+                    }}
                   >
                     {username}
                   </span>

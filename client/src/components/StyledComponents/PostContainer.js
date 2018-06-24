@@ -1,9 +1,9 @@
 import styled from 'styled-components';
 
 const PostContainer = styled.div`
-  background-color: grey;
+  background-color: #dbdbdb;
   margin: 6rem auto 0;
-  width: 50rem;
+  width: 73rem;
 `;
 
 export default PostContainer;

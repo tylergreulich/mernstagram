@@ -6,6 +6,8 @@ import Button from '@material-ui/core/Button';
 import PropTypes from 'prop-types';
 
 import { uploadPost } from '../../store/actions/postActions';
+import { getProfile } from '../../store/actions/profileActions';
+
 import Input from '@material-ui/core/Input';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
@@ -21,6 +23,10 @@ class Upload extends Component {
     imgError: '',
     uploaded: false
   };
+
+  componentDidMount() {
+    this.props.getProfile(this.props.auth.user.id);
+  }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.errors) {
@@ -125,14 +131,18 @@ class Upload extends Component {
 
 Upload.propTypes = {
   uploadPost: PropTypes.func.isRequired,
-  post: PropTypes.object.isRequired
+  post: PropTypes.object.isRequired,
+  profile: PropTypes.object.isRequired,
+  auth: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
-  post: state.post
+  post: state.post,
+  profile: state.profile,
+  auth: state.auth
 });
 
 export default connect(
   mapStateToProps,
-  { uploadPost }
+  { getProfile, uploadPost }
 )(Upload);

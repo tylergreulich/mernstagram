@@ -37,7 +37,10 @@ class Navigation extends Component {
     const { classes } = this.props;
     return (
       <div className={classes.root}>
-        <AppBar position="static">
+        <AppBar
+          position="static"
+          style={{ backgroundColor: 'rgb(0, 188, 212)' }}
+        >
           <Toolbar className={classes.toolbar}>
             <Link
               to="/"

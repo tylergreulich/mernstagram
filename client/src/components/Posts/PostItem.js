@@ -14,6 +14,9 @@ import AddComment from '../StyledComponents/AddComment';
 import DeleteIcon from '@material-ui/icons/Delete';
 import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
+import MuiAddComment from '../StyledComponents/MuiAddComment';
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
 import { getProfile } from '../../store/actions/profileActions';
 import {
   deletePost,
@@ -28,12 +31,18 @@ import Comment from '../../images/icons/comment.svg';
 class PostItem extends Component {
   state = {
     text: '',
-    avatar: '',
-    account: ''
+    account: '',
+    errors: {}
   };
 
   componentWillMount() {
     this.props.getProfile(this.props.auth.user.id);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.errors) {
+      this.setState({ errors: nextProps.errors });
+    }
   }
 
   onDeletePostHandler = id => this.props.deletePost(id);
@@ -45,38 +54,71 @@ class PostItem extends Component {
   onSubmitHandler = (event, id) => {
     event.preventDefault();
 
-    const { text, username, avatar, account } = this.state;
+    const { text, username, account } = this.state;
 
     const newComment = {
       text,
       username: this.props.auth.user.username,
-      avatar,
+      avatar: this.props.auth.user.avatar,
       account
     };
 
     this.props.addComment(id, newComment);
-    this.setState({ text: ' ' });
   };
 
   render() {
     const { post, auth, history, profile } = this.props;
+    const { errors } = this.state;
 
     let comments;
     console.log(this.props);
 
     if (post.comments) {
       comments = post.comments.map(comment => (
-        <div key={comment._id} style={{ display: 'flex', marginTop: '3rem' }}>
+        <div
+          key={comment._id}
+          style={{
+            display: 'flex',
+            height: '7rem',
+            marginTop: '3rem'
+          }}
+        >
           <div>
             <img
-              src={comment.avatar || DefaultImage}
+              src={comment.avatar ? comment.avatar : DefaultImage}
               alt="Avatar"
-              style={{ height: '5rem', borderRadius: '3rem' }}
+              style={{ height: '6rem', maxWidth: '6rem', borderRadius: '3rem' }}
+              onClick={() => console.log(this.refs)}
             />
           </div>
-          <div style={{ display: 'flex', flexDirection: 'column' }}>
-            <span>{comment.username}</span>
-            <span>{comment.text}</span>
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              marginLeft: '1rem',
+              flex: 1
+            }}
+          >
+            <span
+              style={{
+                fontSize: '1.7rem',
+                fontWeight: 400,
+                color: '#1e1d1d'
+              }}
+              onClick={() => console.log(this.props)}
+            >
+              {comment.username}
+            </span>
+            <span
+              style={{
+                fontSize: '1.5rem',
+                height: '100%',
+                margin: '.5rem 0 0 .75rem',
+                color: '#1e1d1d'
+              }}
+            >
+              {comment.text}
+            </span>
           </div>
         </div>
       ));
@@ -87,20 +129,17 @@ class PostItem extends Component {
     if (auth.isAuthenticated && post.account) {
       if (auth.user.id === post.account) {
         isUserPost = (
-          <Tooltip id="tooltip-icon" title="Delete">
-            <IconButton
-              aria-label="Delete"
-              style={{
-                alignSelf: 'center',
-                fontSize: '2.4rem',
-                marginLeft: '30.5rem',
-                cursor: 'pointer'
-              }}
-              onClick={id => this.onDeletePostHandler(post._id)}
-            >
-              <DeleteIcon />
-            </IconButton>
-          </Tooltip>
+          <IconButton
+            aria-label="Delete"
+            style={{
+              alignSelf: 'center',
+              fontSize: '2.4rem',
+              cursor: 'pointer'
+            }}
+            onClick={id => this.onDeletePostHandler(post._id)}
+          >
+            <DeleteIcon />
+          </IconButton>
         );
       }
     }
@@ -116,7 +155,7 @@ class PostItem extends Component {
         <div style={{ display: 'flex' }}>
           <UserContainer
             onClick={() => history.push(`/user/${this.props.post.account}`)}
-            style={{ cursor: 'pointer', flex: 0.7 }}
+            style={{ cursor: 'pointer', flex: 0.97 }}
           >
             <PostAvatar src={post.avatar || DefaultImage} alt="Avatar" />
             <Username>{post.username}</Username>
@@ -147,7 +186,13 @@ class PostItem extends Component {
                   ? `${post.likes.length} Like`
                   : 'No Likes'}
             </div>
-            <div style={{ fontSize: '1.2rem', margin: '1rem 0 0 1.25rem' }}>
+            <div
+              style={{
+                fontSize: '1.2rem',
+                margin: '1rem 0 0 1.75rem',
+                maxWidth: '7rem'
+              }}
+            >
               {post.comments.length > 1
                 ? `${post.comments.length} comments`
                 : post.comments.length === 1
@@ -158,16 +203,31 @@ class PostItem extends Component {
         </LikeCommentContainer>
         <div style={{ padding: '2rem' }}>
           <form onSubmit={(event, id) => this.onSubmitHandler(event, post._id)}>
-            <AddComment
-              type="text"
-              placeholder="Add a comment..."
-              value={this.state.text}
-              name="text"
-              onChange={event =>
-                this.setState({ [event.target.name]: event.target.value })
-              }
-            />
-            <button type="submit">Submit</button>
+            <MuiAddComment>
+              <TextField
+                error={errors.text}
+                label={errors.text ? errors.text : 'Add a comment...'}
+                type="text"
+                value={this.state.text}
+                name="text"
+                onChange={event =>
+                  this.setState({ [event.target.name]: event.target.value })
+                }
+                style={{ marginTop: '3rem', width: '80%' }}
+              />
+              <Button
+                variant="contained"
+                color="primary"
+                style={{
+                  margin: ' 0 0 1.5rem .4rem',
+                  fontSize: '1.2rem',
+                  width: '19.4%'
+                }}
+                type="submit"
+              >
+                Submit
+              </Button>
+            </MuiAddComment>
           </form>
           <span>{comments}</span>
         </div>
@@ -186,7 +246,8 @@ PostItem.propTypes = {
 
 const mapStateToProps = state => ({
   auth: state.auth,
-  profile: state.profile
+  profile: state.profile,
+  errors: state.errors
 });
 
 export default connect(
