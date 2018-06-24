@@ -3,6 +3,9 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Link, withRouter } from 'react-router-dom';
 
+import './PostItem.css';
+import HeartSvg from '../../images/icons/HeartSvg';
+
 import DefaultImage from '../../images/default-avatar.png';
 import PostAvatar from '../StyledComponents/PostAvatar';
 import Username from '../StyledComponents/Username';
@@ -71,7 +74,6 @@ class PostItem extends Component {
     const { errors } = this.state;
 
     let comments;
-    console.log(this.props);
 
     if (post.comments) {
       comments = post.comments.map(comment => (
@@ -87,7 +89,11 @@ class PostItem extends Component {
             <img
               src={comment.avatar ? comment.avatar : DefaultImage}
               alt="Avatar"
-              style={{ height: '6rem', maxWidth: '6rem', borderRadius: '3rem' }}
+              style={{
+                height: '6rem',
+                maxWidth: '6rem',
+                borderRadius: '3rem'
+              }}
               onClick={() => console.log(this.refs)}
             />
           </div>
@@ -95,7 +101,7 @@ class PostItem extends Component {
             style={{
               display: 'flex',
               flexDirection: 'column',
-              marginLeft: '1rem',
+              marginLeft: '2rem',
               flex: 1
             }}
           >
@@ -103,7 +109,7 @@ class PostItem extends Component {
               style={{
                 fontSize: '1.7rem',
                 fontWeight: 400,
-                color: '#1e1d1d'
+                color: 'rgb(0, 156, 175)'
               }}
               onClick={() => console.log(this.props)}
             >
@@ -113,7 +119,7 @@ class PostItem extends Component {
               style={{
                 fontSize: '1.5rem',
                 height: '100%',
-                margin: '.5rem 0 0 .75rem',
+                margin: '.5rem 0 0 0',
                 color: '#1e1d1d'
               }}
             >
@@ -134,7 +140,8 @@ class PostItem extends Component {
             style={{
               alignSelf: 'center',
               fontSize: '2.4rem',
-              cursor: 'pointer'
+              cursor: 'pointer',
+              marginRight: '1.25rem'
             }}
             onClick={id => this.onDeletePostHandler(post._id)}
           >
@@ -152,10 +159,10 @@ class PostItem extends Component {
 
     return (
       <PostContainer>
-        <div style={{ display: 'flex' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
           <UserContainer
             onClick={() => history.push(`/user/${this.props.post.account}`)}
-            style={{ cursor: 'pointer', flex: 0.97 }}
+            style={{ cursor: 'pointer' }}
           >
             <PostAvatar src={post.avatar || DefaultImage} alt="Avatar" />
             <Username>{post.username}</Username>
@@ -166,10 +173,8 @@ class PostItem extends Component {
         <PostImageStyles src={post.postImage} alt="Broken Image" />
         <LikeCommentContainer>
           <div style={{ display: 'flex' }}>
-            <img
-              src={Like}
-              alt="Like Post"
-              style={{ height: '3rem', cursor: 'pointer' }}
+            <HeartSvg
+              className="fill"
               onClick={id => this.onLikePostHandler(post._id)}
             />
             <img
@@ -178,8 +183,10 @@ class PostItem extends Component {
               style={{ height: '3rem', flex: 0.2 }}
             />
           </div>
-          <div style={{ display: 'flex' }}>
-            <div style={{ fontSize: '1.2rem', marginTop: '1rem' }}>
+          <div
+            style={{ display: 'flex', height: '3rem', alignItems: 'center' }}
+          >
+            <div style={{ fontSize: '1.2rem', flex: 0.1, textAlign: 'center' }}>
               {post.likes.length > 1
                 ? `${post.likes.length} Likes`
                 : post.likes.length === 1
@@ -189,8 +196,7 @@ class PostItem extends Component {
             <div
               style={{
                 fontSize: '1.2rem',
-                margin: '1rem 0 0 1.75rem',
-                maxWidth: '7rem'
+                marginLeft: '3rem'
               }}
             >
               {post.comments.length > 1

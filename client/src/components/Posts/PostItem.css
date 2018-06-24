@@ -1,0 +1,11 @@
+svg {
+  height: 3rem;
+  cursor: pointer;
+  flex: 0.1;
+  min-width: 6rem;
+  max-width: 6rem;
+}
+
+.fill {
+  fill: blue;
+}
