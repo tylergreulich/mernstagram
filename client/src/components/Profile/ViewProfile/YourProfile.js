@@ -12,13 +12,19 @@ import Settings from '../../../images/icons/cog.svg';
 import DefaultAvatar from '../../../images/default-avatar.png';
 import ThemeWrapper from '../../StyledComponents/MuiTheme';
 import Button from '@material-ui/core/Button';
-import PostAvatar from '../../StyledComponents/PostAvatar';
+import {
+  PostAvatar,
+  AvatarContainer
+} from '../../StyledComponents/Profile/Profile';
 import './ViewProfile.css';
 
 import {
   getProfile,
   uploadAvatar
 } from '../../../store/actions/profileActions';
+
+import EditProfile from './EditProfile';
+import UploadAvatar from './UploadAvatar';
 
 class ViewProfile extends Component {
   state = {
@@ -55,6 +61,7 @@ class ViewProfile extends Component {
   render() {
     const { profileMetrics } = this.props.profile;
     const { username, avatar, id } = this.props.auth.user;
+    const { params } = this.props.match;
     console.log(profileMetrics.avatar);
 
     let editProfile;
@@ -62,16 +69,7 @@ class ViewProfile extends Component {
     if (id === this.props.match.params.id) {
       editProfile = (
         <Aux>
-          <Link to={`${id}/edit-profile`} className="editProfileButton">
-            <Button
-              variant="contained"
-              color="primary"
-              style={{ width: '15rem', margin: 0 }}
-            >
-              Edit Profile
-            </Button>
-          </Link>
-
+          <EditProfile id={id} params={params} />
           <div>
             <img
               src={Settings}
@@ -95,36 +93,22 @@ class ViewProfile extends Component {
         <ThemeWrapper>
           <section className="profileContainer">
             <div className="profileWrapper">
-              <div
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  flex: 0.3,
-                  flexDirection: 'column'
-                }}
-              >
+              <AvatarContainer>
                 <PostAvatar
                   src={
-                    profileMetrics.avatar
-                      ? `http://localhost:5000/${profileMetrics.avatar}`
-                      : DefaultAvatar
+                    `http://localhost:5000/${profileMetrics.avatar}` ||
+                    DefaultAvatar
                   }
                   alt="Profile Avatar"
-                  style={{ height: '15rem', maxWidth: '12rem' }}
+                  style={{ height: '12rem', maxWidth: '12rem' }}
                 />
-                <form
-                  onSubmit={(event, id) =>
+                <UploadAvatar
+                  uploadFile={(event, id) =>
                     this.onSubmitHandler(event, this.props.auth.user.id)
                   }
-                >
-                  <input
-                    type="file"
-                    onChange={this.fileChangedHandler}
-                    name="avatar"
-                  />
-                  <button type="submit">Upload Avatar</button>
-                </form>
-              </div>
+                  chnageFile={this.fileChangedHandler}
+                />
+              </AvatarContainer>
               <div style={{ flex: 0.7, padding: '2rem' }}>
                 <div style={{ display: 'flex', width: '100%' }}>
                   <span

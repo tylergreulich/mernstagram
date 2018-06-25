@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-// import Spinner from '../UI/Spinner';
 import { getPosts } from '../../store/actions/postActions';
 import PostFeed from './PostFeed';
 
