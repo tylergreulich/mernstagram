@@ -76,6 +76,11 @@ class Login extends Component {
           <Button variant="contained" color="primary" type="submit">
             Login
           </Button>
+          <Link to="/">
+            <Button variant="contained" color="primary" type="submit">
+              Or Signup
+            </Button>
+          </Link>
         </ThemeWrapper>
       </SignupFormContainer>
     );

@@ -33,10 +33,12 @@ const upload = multer({
 const router = express.Router();
 
 const Account = require('../../../models/account/account');
+const Post = require('../../../models/post/post');
 
 const validateRegister = require('../../../validation/register');
 const validateLogin = require('../../../validation/login');
 const validateAccount = require('../../../validation/account');
+const validateNewPassword = require('../../../validation/newPassword');
 
 router.get('/', (req, res) => {
   Account.find().then(account => res.json(account));
@@ -191,6 +193,12 @@ router.patch(
     )
       .then(account => res.json(account))
       .catch(err => res.json(errors));
+
+    Account.findById(req.params.id).then(account => {
+      Post.updateMany({ avatar: req.file.path }, { multi: true })
+        .then(post => console.log(post))
+        .catch(err => console.log(err));
+    });
   }
 );
 

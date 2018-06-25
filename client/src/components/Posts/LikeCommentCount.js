@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { LikeCommentContainer } from '../StyledComponents/Comments';
+import { LikeCommentContainer } from '../StyledComponents/Comments/Comments';
 import HeartSvg from '../../images/icons/HeartSvg';
 import Like from '../../images/icons/heart.svg';
 import Comment from '../../images/icons/comment.svg';

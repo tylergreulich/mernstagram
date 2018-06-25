@@ -6,6 +6,7 @@ import HomeFeed from './components/Feed/HomeFeed/HomeFeed';
 import Navigation from './components/Navigation/Navigation';
 import YourProfile from './components/Profile/ViewProfile/YourProfile';
 import UserProfile from './components/Profile/ViewProfile/UserProfile';
+import EditProfile from './components/Profile/EditProfile/EditProfile';
 import Upload from './components/Upload/Upload';
 
 import store from './store/store';
@@ -55,6 +56,13 @@ class App extends Component {
                   exact
                   path="/account/:id"
                   component={YourProfile}
+                />
+              </Switch>
+              <Switch>
+                <PrivateRoute
+                  exact
+                  path="/account/:id/edit-profile"
+                  component={EditProfile}
                 />
               </Switch>
             </div>

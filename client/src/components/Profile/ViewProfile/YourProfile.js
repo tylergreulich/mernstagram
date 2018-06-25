@@ -10,7 +10,7 @@ import SettingsModal from '../SettingsModal/SettingsModal';
 
 import Settings from '../../../images/icons/cog.svg';
 import DefaultAvatar from '../../../images/default-avatar.png';
-import ThemeWrapper from '../../StyledComponents/MuiTheme';
+import ThemeWrapper from '../../StyledComponents/MuiTheme/MuiTheme';
 import Button from '@material-ui/core/Button';
 import {
   PostAvatar,
@@ -52,10 +52,11 @@ class ViewProfile extends Component {
     if (this.state.avatar) {
       const fd = new FormData();
       fd.append('avatar', this.state.avatar, this.state.avatar.name);
-
       this.props.uploadAvatar(id, fd);
-
       this.setState({ uploaded: true });
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000);
     }
   };
 
@@ -63,7 +64,6 @@ class ViewProfile extends Component {
     const { profileMetrics } = this.props.profile;
     const { username, avatar, id } = this.props.auth.user;
     const { params } = this.props.match;
-    console.log(profileMetrics.avatar);
 
     let editProfile;
 
@@ -107,7 +107,8 @@ class ViewProfile extends Component {
                   uploadFile={(event, id) =>
                     this.onSubmitHandler(event, this.props.auth.user.id)
                   }
-                  chnageFile={this.fileChangedHandler}
+                  changeFile={this.fileChangedHandler}
+                  name="avatar"
                 />
               </AvatarContainer>
               <div style={{ flex: 0.7, padding: '2rem' }}>

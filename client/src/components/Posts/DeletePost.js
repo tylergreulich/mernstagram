@@ -25,7 +25,7 @@ class DeletePost extends Component {
               alignSelf: 'center',
               fontSize: '2.4rem',
               cursor: 'pointer',
-              marginRight: '1.25rem'
+              margin: '1.5rem 1.25rem 0 0'
             }}
             onClick={id => this.onDeletePostHandler(_id)}
           >

@@ -11,7 +11,6 @@ import Button from '@material-ui/core/Button';
 import ThemeWrapper from '../../StyledComponents/MuiTheme/MuiTheme';
 
 import SignupFormContainer from '../../StyledComponents/Form/SignupFormContainer';
-import ShowPassword from '../../StyledComponents/ShowPassword';
 import PageTitle from '../../UI/PageTitle';
 import Aux from '../../../hoc/Auxiliary';
 
@@ -62,7 +61,7 @@ class Landing extends Component {
         <PageTitle>Mernstagram</PageTitle>
         <SignupFormContainer onSubmit={this.onSubmitHandler}>
           <ThemeWrapper>
-            <Typography variant="display3">Sign Up</Typography>
+            <Typography variant="display3">Mernstagarm</Typography>
             <TextField
               error={errors.email}
               label={errors.email ? errors.email : 'Email'}

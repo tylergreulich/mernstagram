@@ -19,7 +19,6 @@ const styles = {
     margin: '0 auto'
   },
   flex: {
-    flex: 1,
     fontSize: '1.7rem'
   },
   menuButton: {
@@ -28,7 +27,9 @@ const styles = {
   },
   toolbar: {
     margin: '0 auto',
-    width: '90rem'
+    width: '90rem',
+    display: 'flex',
+    justifyContent: 'space-between'
   }
 };
 
@@ -54,28 +55,29 @@ class Navigation extends Component {
                 Mernstagram
               </Typography>
             </Link>
-            {/* <input /> */}
-            <NavBarLink to="/posts/upload">
-              <img
-                src={UploadIcon}
-                alt="Upload"
-                style={{ height: '2.5rem', margin: '0 .5rem' }}
-              />
-            </NavBarLink>
-            <NavBarLink to="/explore">
-              <img
-                src={DiscoverIcon}
-                alt="Discover"
-                style={{ height: '2.5rem', margin: '0 .5rem' }}
-              />
-            </NavBarLink>
-            <NavBarLink to={`/account/${this.props.auth.user.id}`}>
-              <img
-                src={ProfileIcon}
-                alt="Profile"
-                style={{ height: '2.5rem', margin: '0 .5rem' }}
-              />
-            </NavBarLink>
+            <div>
+              <NavBarLink to="/posts/upload">
+                <img
+                  src={UploadIcon}
+                  alt="Upload"
+                  style={{ height: '2.5rem', margin: '0 .5rem' }}
+                />
+              </NavBarLink>
+              <NavBarLink to="/explore">
+                <img
+                  src={DiscoverIcon}
+                  alt="Discover"
+                  style={{ height: '2.5rem', margin: '0 .5rem' }}
+                />
+              </NavBarLink>
+              <NavBarLink to={`/account/${this.props.auth.user.id}`}>
+                <img
+                  src={ProfileIcon}
+                  alt="Profile"
+                  style={{ height: '2.5rem', margin: '0 .5rem' }}
+                />
+              </NavBarLink>
+            </div>
           </Toolbar>
         </AppBar>
       </div>

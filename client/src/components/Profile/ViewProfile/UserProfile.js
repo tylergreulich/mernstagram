@@ -10,7 +10,7 @@ import SettingsModal from '../SettingsModal/SettingsModal';
 
 import Settings from '../../../images/icons/cog.svg';
 import DefaultAvatar from '../../../images/default-avatar.png';
-import ThemeWrapper from '../../StyledComponents/MuiTheme';
+import ThemeWrapper from '../../StyledComponents/MuiTheme/MuiTheme';
 import Button from '@material-ui/core/Button';
 import {
   PostAvatar,
