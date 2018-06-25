@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { addComment } from '../../store/actions/postActions';
-import MuiAddComment from '../StyledComponents/MuiAddComment';
+import MuiAddComment from '../StyledComponents/MuiTheme/MuiAddComment';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 

@@ -12,11 +12,16 @@ import Settings from '../../../images/icons/cog.svg';
 import DefaultAvatar from '../../../images/default-avatar.png';
 import ThemeWrapper from '../../StyledComponents/MuiTheme';
 import Button from '@material-ui/core/Button';
-import PostAvatar from '../../StyledComponents/PostAvatar';
+import {
+  PostAvatar,
+  AvatarContainer
+} from '../../StyledComponents/Profile/Profile';
 import './ViewProfile.css';
 
 import Follow from '../Follow/Follow';
 import UnFollow from '../UnFollow/UnFollow';
+
+import ProfileMetrics from './ProfileMetrics';
 
 import {
   getProfile,
@@ -61,7 +66,6 @@ class UserProfile extends Component {
   };
 
   render() {
-    console.log(this.props.match.params.id);
     const { profileMetrics } = this.props.profile;
     const { isAuthenticated, user: currentUser } = this.props.auth;
 
@@ -96,37 +100,30 @@ class UserProfile extends Component {
         <ThemeWrapper>
           <section className="profileContainer">
             <div className="profileWrapper">
-              <div style={{ display: 'flex', alignItems: 'center', flex: 0.3 }}>
+              <AvatarContainer>
                 <PostAvatar
-                  src={profileMetrics.avatar || DefaultAvatar}
+                  src={
+                    `http://localhost:5000/${profileMetrics.avatar}` ||
+                    DefaultAvatar
+                  }
                   alt="Profile Avatar"
-                  style={{ height: '15rem' }}
+                  style={{ height: '12rem', maxWidth: '12rem' }}
                 />
-              </div>
+              </AvatarContainer>
               <div style={{ flex: 0.7, padding: '2rem' }}>
                 <div style={{ display: 'flex', width: '100%' }}>
                   <span
-                    style={{ fontSize: '3.5rem', fontWeight: 100, flex: 0.3 }}
+                    style={{
+                      fontSize: '3.5rem',
+                      fontWeight: 100,
+                      flex: 0.3
+                    }}
                   >
                     {profileMetrics.username}
                   </span>
                   <span>{isFollow}</span>
                 </div>
-                <div className="metricsContainer">
-                  {profileMetrics.posts ? (
-                    <div className="metricsWrapper">
-                      {' '}
-                      <span>{profileMetrics.posts.length} Posts</span>{' '}
-                      <span>{profileMetrics.followers.length} Followers</span>
-                      <span>{profileMetrics.following.length} Following</span>
-                    </div>
-                  ) : null}
-                </div>
-                <div>
-                  <span style={{ fontSize: '2.1rem', fontWeight: 400 }}>
-                    {profileMetrics.fullname}
-                  </span>
-                </div>
+                <ProfileMetrics profileMetrics={profileMetrics} />
               </div>
             </div>
           </section>

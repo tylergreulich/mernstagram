@@ -19,3 +19,17 @@ export const PostAvatar = styled.img`
   height: 6rem;
   max-width: 6rem;
 `;
+
+export const MetricsContainer = styled.div`
+  display: flex;
+  align-items: center;
+  width: 52%;
+  height: 60%;
+`;
+
+export const MetricsWrapper = styled.div`
+  display: flex;
+  font-size: 1.4rem;
+  width: 100%;
+  justify-content: space-between;
+`;

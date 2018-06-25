@@ -39,7 +39,9 @@ class DeletePost extends Component {
 }
 
 DeletePost.propTypes = {
-  deletePost: PropTypes.func.isRequired
+  deletePost: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
+  post: PropTypes.object.isRequired
 };
 
 export default connect(

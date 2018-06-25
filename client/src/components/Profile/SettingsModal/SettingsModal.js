@@ -6,7 +6,7 @@ import { logoutUser } from '../../../store/actions/authActions';
 
 import './SettingsModal.css';
 import TextField from '@material-ui/core/TextField';
-import ThemeWrapper from '../../StyledComponents/MuiTheme';
+import ThemeWrapper from '../../StyledComponents/MuiTheme/MuiTheme';
 
 class SettingsModal extends Component {
   state = {

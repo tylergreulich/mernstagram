@@ -8,9 +8,9 @@ import { registerUser } from '../../../store/actions/authActions';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import ThemeWrapper from '../../StyledComponents/MuiTheme';
+import ThemeWrapper from '../../StyledComponents/MuiTheme/MuiTheme';
 
-import SignupFormContainer from '../../StyledComponents/SignupFormContainer';
+import SignupFormContainer from '../../StyledComponents/Form/SignupFormContainer';
 import ShowPassword from '../../StyledComponents/ShowPassword';
 import PageTitle from '../../UI/PageTitle';
 import Aux from '../../../hoc/Auxiliary';

@@ -4,13 +4,12 @@ import PropTypes from 'prop-types';
 import { Link, withRouter } from 'react-router-dom';
 
 import './PostItem.css';
-
 import DefaultImage from '../../images/default-avatar.png';
-import PostAvatar from '../StyledComponents/PostAvatar';
+import { PostAvatar } from '../StyledComponents/Profile/Profile';
 import Username from '../StyledComponents/Username';
 import UserContainer from '../StyledComponents/UserContainer';
-import PostContainer from '../StyledComponents/PostContainer';
-import PostImageStyles from '../StyledComponents/PostImageStyles';
+import PostContainer from '../StyledComponents/Post/PostContainer';
+import PostImageStyles from '../StyledComponents/Post/PostImageStyles';
 import DeletePost from './DeletePost';
 import Tooltip from '@material-ui/core/Tooltip';
 import { getProfile } from '../../store/actions/profileActions';

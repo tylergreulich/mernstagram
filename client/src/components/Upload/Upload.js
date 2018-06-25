@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import ThemeWrapper from '../StyledComponents/MuiTheme';
+import ThemeWrapper from '../StyledComponents/MuiTheme/MuiTheme';
 import Button from '@material-ui/core/Button';
 import PropTypes from 'prop-types';
 

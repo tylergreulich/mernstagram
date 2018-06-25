@@ -1,5 +1,5 @@
 import React from 'react';
-import ThemeWrapper from '../../StyledComponents/MuiTheme';
+import ThemeWrapper from '../../StyledComponents/MuiTheme/MuiTheme';
 import Aux from '../../../hoc/Auxiliary';
 import Button from '@material-ui/core/Button';
 

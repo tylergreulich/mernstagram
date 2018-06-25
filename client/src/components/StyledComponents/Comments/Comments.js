@@ -31,3 +31,23 @@ export const CmntTextWrapper = styled.div`
   margin-left: 2rem;
   flex: 1;
 `;
+
+export const AddComment = styled.input`
+  padding: 0.25rem;
+  &:hover,
+  &:focus {
+    outline: none;
+  }
+`;
+
+export const LikeCommentContainer = styled.div`
+  padding: 2rem;
+  &:after {
+    content: '';
+    display: block;
+    margin: 0 auto;
+    width: 100%;
+    padding-top: 20px;
+    border-bottom: 1px solid black;
+  }
+`;

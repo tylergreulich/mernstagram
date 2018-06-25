@@ -7,9 +7,9 @@ import { loginUser } from '../../../store/actions/authActions';
 
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
-import ThemeWrapper from '../../StyledComponents/MuiTheme';
+import ThemeWrapper from '../../StyledComponents/MuiTheme/MuiTheme';
 import Button from '@material-ui/core/Button';
-import SignupFormContainer from '../../StyledComponents/SignupFormContainer';
+import SignupFormContainer from '../../StyledComponents/Form/SignupFormContainer';
 
 class Login extends Component {
   state = {
@@ -18,11 +18,11 @@ class Login extends Component {
     errors: {}
   };
 
-  // componentDidMount() {
-  //   if (this.props.auth.isAuthenticated) {
-  //     this.props.history.push('/feed');
-  //   }
-  // }
+  componentDidMount() {
+    if (this.props.auth.isAuthenticated) {
+      this.props.history.push('/feed');
+    }
+  }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.auth.isAuthenticated) {

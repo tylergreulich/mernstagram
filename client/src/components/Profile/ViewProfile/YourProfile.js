@@ -25,6 +25,7 @@ import {
 
 import EditProfile from './EditProfile';
 import UploadAvatar from './UploadAvatar';
+import ProfileMetrics from './ProfileMetrics';
 
 class ViewProfile extends Component {
   state = {
@@ -124,21 +125,7 @@ class ViewProfile extends Component {
                     <div style={{ display: 'flex' }}>{editProfile}</div>
                   ) : null}
                 </div>
-                <div className="metricsContainer">
-                  {profileMetrics.posts ? (
-                    <div className="metricsWrapper">
-                      {' '}
-                      <span>{profileMetrics.posts.length} Posts</span>{' '}
-                      <span>{profileMetrics.followers.length} Followers</span>
-                      <span>{profileMetrics.following.length} Following</span>
-                    </div>
-                  ) : null}
-                </div>
-                <div>
-                  <span style={{ fontSize: '2.1rem', fontWeight: 400 }}>
-                    {profileMetrics.fullname}
-                  </span>
-                </div>
+                <ProfileMetrics profileMetrics={profileMetrics} />
               </div>
             </div>
           </section>
