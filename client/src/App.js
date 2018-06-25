@@ -36,8 +36,6 @@ class App extends Component {
       <Provider store={store}>
         <BrowserRouter>
           <div>
-            {/* TODO: Change root path depending on if user is logged in or not */}
-            {/* User !signedin ? render => 'Landing' : 'HomeFeed' */}
             <Route exact path="/" component={Landing} />
             <Route exact path="/login" component={Login} />
             <div>
