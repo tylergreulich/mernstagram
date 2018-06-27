@@ -61,7 +61,7 @@ class Landing extends Component {
         <PageTitle>Mernstagram</PageTitle>
         <SignupFormContainer onSubmit={this.onSubmitHandler}>
           <ThemeWrapper>
-            <Typography variant="display3">Mernstagarm</Typography>
+            <Typography variant="display3">Mernstagram</Typography>
             <TextField
               error={errors.email}
               label={errors.email ? errors.email : 'Email'}
