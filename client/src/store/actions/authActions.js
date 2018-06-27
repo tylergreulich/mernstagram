@@ -7,7 +7,7 @@ import { SET_CURRENT_USER, GET_ERRORS } from './actionTypes';
 export const registerUser = (userData, history) => dispatch => {
   axios
     .post(
-      'https://stormy-bastion-24844.herokuapp.com/api/accounts/register',
+      'https://frozen-castle-89856.herokuapp.com/api/accounts/register',
       userData
     )
     .then(res => history.push('/login'))
@@ -17,7 +17,7 @@ export const registerUser = (userData, history) => dispatch => {
 export const loginUser = userData => dispatch => {
   axios
     .post(
-      'https://stormy-bastion-24844.herokuapp.com/api/accounts/login',
+      'https://frozen-castle-89856.herokuapp.com/api/accounts/login',
       userData
     )
     .then(res => {

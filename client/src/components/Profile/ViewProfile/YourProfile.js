@@ -97,10 +97,10 @@ class ViewProfile extends Component {
               <AvatarContainer>
                 <PostAvatar
                   src={
-                    `https://stormy-bastion-24844.herokuapp.com/${
+                    `https://frozen-castle-89856.herokuapp.com/${
                       profileMetrics.avatar
                     }`
-                      ? `https://stormy-bastion-24844.herokuapp.com/${
+                      ? `https://frozen-castle-89856.herokuapp.com/${
                           profileMetrics.avatar
                         }`
                       : DefaultAvatar
