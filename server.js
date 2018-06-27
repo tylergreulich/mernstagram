@@ -1,10 +1,10 @@
 const express = require('express');
+const cors = require('cors');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const passport = require('passport');
 const keys = require('./config/keys');
 const path = require('path');
-const cors = require('cors');
 
 const accountRouter = require('./routes/api/accounts/accounts');
 const postRouter = require('./routes/api/posts/posts');
@@ -16,6 +16,7 @@ mongoose
 
 const app = express();
 
+app.use(cors());
 app.use('/uploads', express.static('uploads'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -23,7 +24,6 @@ app.use(bodyParser.json());
 app.use(passport.initialize());
 require('./config/passport')(passport);
 
-app.use(cors());
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
   res.header(
