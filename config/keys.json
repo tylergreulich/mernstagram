@@ -1,5 +1,0 @@
-{
-  "MongoURI":
-    "mongodb://tyler:tyler1@ds261450.mlab.com:61450/instagram-clone-db",
-  "secretOrKey": "jwtSecretKey"
-}

@@ -3,12 +3,13 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const passport = require('passport');
 const keys = require('./config/keys');
+const path = require('path');
 
 const accountRouter = require('./routes/api/accounts/accounts');
 const postRouter = require('./routes/api/posts/posts');
 
 mongoose
-  .connect(keys.MongoURI)
+  .connect(keys.mongoURI)
   .then(res => console.log('Connected to MongoDB'))
   .catch(err => console.log(err));
 
@@ -23,6 +24,13 @@ require('./config/passport')(passport);
 
 app.use('/api/accounts', accountRouter);
 app.use('/api/posts', postRouter);
+
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static('client/build'));
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+  });
+}
 
 const port = process.env.PORT || 5000;
 
