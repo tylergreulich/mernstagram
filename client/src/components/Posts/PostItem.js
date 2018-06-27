@@ -36,7 +36,10 @@ class PostItem extends Component {
             onClick={() => history.push(`/user/${this.props.post.account}`)}
             style={{ cursor: 'pointer' }}
           >
-            <PostAvatar src={post.avatar || DefaultImage} alt="Avatar" />
+            <PostAvatar
+              src={post.avatar ? post.avatar : DefaultImage}
+              alt="Avatar"
+            />
             <Username>{post.username}</Username>
           </UserContainer>
           <DeletePost auth={auth} post={post} />

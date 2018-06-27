@@ -103,8 +103,13 @@ class UserProfile extends Component {
               <AvatarContainer>
                 <PostAvatar
                   src={
-                    `http://localhost:5000/${profileMetrics.avatar}` ||
-                    DefaultAvatar
+                    `https://stormy-bastion-24844.herokuapp.com/${
+                      profileMetrics.avatar
+                    }`
+                      ? `https://stormy-bastion-24844.herokuapp.com/${
+                          profileMetrics.avatar
+                        }`
+                      : DefaultAvatar
                   }
                   alt="Profile Avatar"
                   style={{ height: '12rem', maxWidth: '12rem' }}

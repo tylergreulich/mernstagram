@@ -97,8 +97,13 @@ class ViewProfile extends Component {
               <AvatarContainer>
                 <PostAvatar
                   src={
-                    `http://localhost:5000/${profileMetrics.avatar}` ||
-                    DefaultAvatar
+                    `https://stormy-bastion-24844.herokuapp.com/${
+                      profileMetrics.avatar
+                    }`
+                      ? `https://stormy-bastion-24844.herokuapp.com/${
+                          profileMetrics.avatar
+                        }`
+                      : DefaultAvatar
                   }
                   alt="Profile Avatar"
                   style={{ height: '12rem', maxWidth: '12rem' }}
@@ -114,11 +119,7 @@ class ViewProfile extends Component {
               <div style={{ flex: 0.7, padding: '2rem' }}>
                 <div style={{ display: 'flex', width: '100%' }}>
                   <span
-                    style={{
-                      fontSize: '3.5rem',
-                      fontWeight: 100,
-                      flex: 0.3
-                    }}
+                    style={{ fontSize: '3.5rem', fontWeight: 100, flex: 0.3 }}
                   >
                     {username}
                   </span>
