@@ -1,5 +1,6 @@
 import React from 'react';
 import DefaultImage from '../../images/default-avatar.png';
+import { withRouter } from 'react-router-dom';
 
 import {
   CommentContainer,
@@ -9,7 +10,7 @@ import {
   CmntText
 } from '../StyledComponents/Comments/Comments';
 
-const comments = ({ post: { comments } }) => {
+const comments = ({ post: { comments }, history }) => {
   let commentInfo;
 
   if (comments) {
@@ -19,6 +20,8 @@ const comments = ({ post: { comments } }) => {
           <CommentAvatar
             src={comment.avatar ? comment.avatar : DefaultImage}
             alt="Avatar"
+            onClick={() => history.push(`/user/${comment.account}`)}
+            style={{ cursor: 'pointer' }}
           />
         </div>
         <CmntTextWrapper>
@@ -32,4 +35,4 @@ const comments = ({ post: { comments } }) => {
   return <div>{commentInfo}</div>;
 };
 
-export default comments;
+export default withRouter(comments);

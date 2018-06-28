@@ -8,7 +8,7 @@ export const CommentContainer = styled.div`
 
 export const CommentAvatar = styled.img`
   height: 6rem;
-  max-width: 6rem;
+  max-width: 9rem;
   border-radius: 3rem;
 `;
 

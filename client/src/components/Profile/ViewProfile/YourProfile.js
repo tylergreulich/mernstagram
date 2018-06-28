@@ -102,7 +102,7 @@ class ViewProfile extends Component {
                       : DefaultAvatar
                   }
                   alt="Profile Avatar"
-                  style={{ height: '12rem', maxWidth: '12rem' }}
+                  style={{ height: '18rem', maxWidth: '18rem' }}
                 />
                 <UploadAvatar
                   uploadFile={(event, id) =>

@@ -17,7 +17,7 @@ export const AvatarContainer = styled.div`
 export const PostAvatar = styled.img`
   border-radius: 10rem;
   height: 6rem;
-  max-width: 6rem;
+  max-width: 9rem;
 `;
 
 export const MetricsContainer = styled.div`

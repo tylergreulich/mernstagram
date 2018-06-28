@@ -108,7 +108,7 @@ class UserProfile extends Component {
                       : DefaultAvatar
                   }
                   alt="Profile Avatar"
-                  style={{ height: '12rem', maxWidth: '12rem' }}
+                  style={{ height: '18rem', maxWidth: '18rem' }}
                 />
               </AvatarContainer>
               <div style={{ flex: 0.7, padding: '2rem' }}>
