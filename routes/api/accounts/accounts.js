@@ -6,13 +6,20 @@ const keys = require('../../../config/keys');
 const passport = require('passport');
 
 const multer = require('multer');
+const cloudinary = require('cloudinary');
+
+// const storage = multer.diskStorage({
+//   destination: (req, file, cb) => {
+//     cb(null, './uploads/');
+//   },
+//   filename: (req, file, cb) => {
+//     cb(null, file.originalname);
+//   }
+// });
 
 const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, './uploads/');
-  },
-  filename: (req, file, cb) => {
-    cb(null, file.originalname);
+  filename: (req, file, callback) => {
+    callback(null, file.originalname);
   }
 });
 
@@ -28,6 +35,12 @@ const upload = multer({
   storage,
   limits: { fileSize: 1024 * 1024 * 5 },
   fileFilter
+});
+
+cloudinary.config({
+  cloud_name: 'dqrewcznj',
+  api_key: '525388843969315',
+  api_secret: '8SFqWweyieMulABYFan2ZRud55I'
 });
 
 const router = express.Router();
@@ -184,20 +197,20 @@ router.patch(
   upload.single('avatar'),
   passport.authenticate('jwt', { session: false }),
   (req, res) => {
-    Account.findByIdAndUpdate(
-      req.params.id,
-      {
-        avatar: req.file.path
-      },
-      { new: true }
-    )
-      .then(account => res.json(account))
-      .catch(err => res.json(errors));
-
-    Account.findById(req.params.id).then(account => {
-      Post.updateMany({ avatar: req.file.path }, { multi: true })
-        .then(post => console.log(post))
-        .catch(err => console.log(err));
+    cloudinary.v2.uploader.upload(req.file.path, (err, result) => {
+      if (err) {
+        console.log(err);
+      } else {
+        Account.findByIdAndUpdate(
+          req.params.id,
+          {
+            avatar: result.secure_url
+          },
+          { new: true }
+        )
+          .then(account => res.json(account))
+          .catch(err => res.json(errors));
+      }
     });
   }
 );

@@ -10,13 +10,20 @@ const Account = require('../../../models/account/account');
 const validatePost = require('../../../validation/post');
 
 const multer = require('multer');
+const cloudinary = require('cloudinary');
+
+// const storage = multer.diskStorage({
+//   destination: (req, file, cb) => {
+//     cb(null, './uploads/postImages');
+//   },
+//   filename: (req, file, cb) => {
+//     cb(null, file.originalname);
+//   }
+// });
 
 const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, './uploads/postImages');
-  },
-  filename: (req, file, cb) => {
-    cb(null, file.originalname);
+  filename: (req, file, callback) => {
+    callback(null, file.originalname);
   }
 });
 
@@ -32,6 +39,12 @@ const upload = multer({
   storage,
   limits: { fileSize: 1024 * 1024 * 5 },
   fileFilter
+});
+
+cloudinary.config({
+  cloud_name: 'dqrewcznj',
+  api_key: '525388843969315',
+  api_secret: '8SFqWweyieMulABYFan2ZRud55I'
 });
 
 router.get('/', (req, res) => {
@@ -57,21 +70,28 @@ router.post(
 
     if (!isValid) return res.status(400).json(errors);
 
-    const newPost = new Post({
-      text: req.body.text,
-      name: req.body.name,
-      postImage: req.file.path,
-      account: req.user.id,
-      avatar: req.user.avatar,
-      username: req.user.username
-    });
+    cloudinary.v2.uploader.upload(req.file.path, (err, result) => {
+      if (err) {
+        console.log(err);
+      }
 
-    Account.findOne({ username: req.user.username }).then(account => {
-      account.posts.push({ post: newPost });
-      account.save();
-    });
+      const newPost = new Post({
+        text: req.body.text,
+        name: req.body.name,
+        postImage: result.secure_url,
+        account: req.user.id,
+        avatar: req.user.avatar,
+        username: req.user.username
+      });
 
-    newPost.save().then(post => res.json(post));
+      Account.findOne({ username: req.user.username }).then(account => {
+        account.posts.push({ post: newPost });
+        account.save();
+      });
+      newPost.save().then(post => res.json(post));
+
+      console.log(result);
+    });
   }
 );
 

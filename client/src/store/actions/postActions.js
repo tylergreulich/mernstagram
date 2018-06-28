@@ -13,45 +13,42 @@ import {
 export const getPosts = () => dispatch => {
   dispatch(setPostsLoading());
   axios
-    .get('https://frozen-castle-89856.herokuapp.com/api/posts')
+    .get('/api/posts')
     .then(res => dispatch({ type: GET_POSTS, payload: res.data }))
     .catch(err => dispatch({ type: GET_POSTS, payload: null }));
 };
 
 export const uploadPost = fd => dispatch => {
   axios
-    .post('https://frozen-castle-89856.herokuapp.com/api/posts', fd)
+    .post('/api/posts', fd)
     .then(res => dispatch({ type: UPLOAD_POST, payload: res.data }))
     .catch(err => dispatch({ type: GET_ERRORS, payload: err.response.data }));
 };
 
 export const deletePost = id => dispatch => {
   axios
-    .delete(`https://frozen-castle-89856.herokuapp.com/api/posts/${id}`)
+    .delete(`/api/posts/${id}`)
     .then(res => dispatch({ type: DELETE_POST, payload: id }))
     .catch(err => dispatch({ type: DELETE_POST, payload: null }));
 };
 
 export const likePost = id => dispatch => {
   axios
-    .post(`https://frozen-castle-89856.herokuapp.com/api/posts/${id}/like`)
+    .post(`/api/posts/${id}/like`)
     .then(res => dispatch(getPosts()))
     .catch(err => dispatch({ type: GET_ERRORS, payload: err.response.data }));
 };
 
 export const unLikePost = id => dispatch => {
   axios
-    .post(`https://frozen-castle-89856.herokuapp.com/api/posts/${id}/unlike`)
+    .post(`/api/posts/${id}/unlike`)
     .then(res => dispatch(getPosts()))
     .catch(err => dispatch({ type: GET_ERRORS, payload: err.response.data }));
 };
 
 export const addComment = (id, newComment) => dispatch => {
   axios
-    .post(
-      `https://frozen-castle-89856.herokuapp.com/api/posts/${id}/comment`,
-      newComment
-    )
+    .post(`/api/posts/${id}/comment`, newComment)
     .then(res => dispatch(getPosts()))
     .catch(err => dispatch({ type: GET_ERRORS, payload: err.response.data }));
 };

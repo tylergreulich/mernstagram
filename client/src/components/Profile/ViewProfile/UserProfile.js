@@ -103,12 +103,8 @@ class UserProfile extends Component {
               <AvatarContainer>
                 <PostAvatar
                   src={
-                    `https://frozen-castle-89856.herokuapp.com/${
-                      profileMetrics.avatar
-                    }`
-                      ? `https://frozen-castle-89856.herokuapp.com/${
-                          profileMetrics.avatar
-                        }`
+                    profileMetrics.avatar
+                      ? profileMetrics.avatar
                       : DefaultAvatar
                   }
                   alt="Profile Avatar"
